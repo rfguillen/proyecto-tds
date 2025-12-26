@@ -23,7 +23,7 @@ public abstract class Cuenta {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
+
 	public LocalDate getFechaCreacion() {
 		return fechaCreacion;
 	}

@@ -3,6 +3,7 @@ package umu.tds.proyecto.negocio.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Usuario {
 
 	private String nombre;
@@ -16,6 +17,36 @@ public class Usuario {
 		this.cuentaPersonal = new CuentaPersonal("Mis Gastos");
 		this.cuentas.add(this.cuentaPersonal);
 	}
+	
+	
+	public List<Gasto> getGastosTotales () {
+		List<Gasto> gastosUsuario= new ArrayList<Gasto>();
+	
+		
+		for (Cuenta c : cuentas) {   //recorro las cuentas para sacar los gastos
+			List<Gasto> gastosCuenta=c.getGastos();
+			
+			for (Gasto g : gastosCuenta) {//añado los gastos de cada cuenta
+				gastosUsuario.add(g);
+			}
+		}
+		return gastosUsuario;
+	}
+	
+	
+	
+	public double getSaldoTotal() {
+		double saldo=0;
+		
+		
+		return saldo;
+	}
+	
+	
+	
+	
+	
+	
 	
 	public String getNombre() {
 		return nombre;
