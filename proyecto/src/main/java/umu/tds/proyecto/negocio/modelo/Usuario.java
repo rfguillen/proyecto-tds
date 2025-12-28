@@ -19,18 +19,18 @@ public class Usuario {
 	}
 	
 	
-	public List<Gasto> getGastosTotales () {
-		List<Gasto> gastosUsuario= new ArrayList<Gasto>();
+	public List<Movimiento> getGastosTotales () {
+		List<Movimiento> movimientosUsuario= new ArrayList<Movimiento>();
 	
 		
 		for (Cuenta c : cuentas) {   //recorro las cuentas para sacar los gastos
-			List<Gasto> gastosCuenta=c.getGastos();
+			List<Movimiento> movimientosCuenta=c.getMovimientos();
 			
-			for (Gasto g : gastosCuenta) {//añado los gastos de cada cuenta
-				gastosUsuario.add(g);
+			for (Movimiento m : movimientosCuenta) {//añado los gastos de cada cuenta
+				movimientosUsuario.add(m);
 			}
 		}
-		return gastosUsuario;
+		return movimientosUsuario;
 	}
 	
 	
