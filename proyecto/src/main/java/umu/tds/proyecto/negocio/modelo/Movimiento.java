@@ -1,21 +1,22 @@
 package umu.tds.proyecto.negocio.modelo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class Gasto {
+public class Movimiento {
 	
 	private String concepto;
 	private double cantidad;
-	private LocalDate fecha;
+	private LocalDateTime fecha;
 	private Categoria categoria;
 
-	public Gasto(String concepto, double cantidad, LocalDate fecha, Categoria categoria) {
+	public Movimiento(String concepto, double cantidad, LocalDateTime fecha, Categoria categoria) {
 		this.concepto = concepto;
 		this.cantidad = cantidad;
 		this.fecha = fecha;
 		this.categoria = categoria;
+		
 	}
-	
+
 	public String getConcepto() {
 		return concepto;
 	}
@@ -32,11 +33,11 @@ public class Gasto {
 		this.cantidad = cantidad;
 	}
 	
-	public LocalDate getFecha() {
+	public LocalDateTime getFecha() {
 		return fecha;
 	}
 	
-	public void setFecha(LocalDate fecha) {
+	public void setFecha(LocalDateTime fecha) {
 		this.fecha = fecha;
 	}
 	

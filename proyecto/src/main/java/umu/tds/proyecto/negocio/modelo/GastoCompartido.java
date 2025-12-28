@@ -1,12 +1,12 @@
 package umu.tds.proyecto.negocio.modelo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class GastoCompartido extends Gasto {
+public class GastoCompartido extends Movimiento {
 	
 	private Participante pagador;
 	
-	public GastoCompartido(String concepto, double cantidad, LocalDate fecha, Categoria categoria, Participante pagador) {
+	public GastoCompartido(String concepto, double cantidad, LocalDateTime fecha, Categoria categoria, Participante pagador) {
 		super(concepto, cantidad, fecha, categoria);
 		this.pagador = pagador;
 	}
