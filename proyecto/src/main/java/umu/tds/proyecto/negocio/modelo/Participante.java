@@ -8,7 +8,7 @@ public class Participante {
 	private double porcentajeParticipacion;
 	private double saldo;
 	
-	public Participante(String nombre, String email, double porcentajeParticipacion) {
+	public Participante(String nombre, double porcentajeParticipacion) {
 		this.nombre = nombre;
 		this.porcentajeParticipacion = porcentajeParticipacion;
 		this.saldo = 0.0;
