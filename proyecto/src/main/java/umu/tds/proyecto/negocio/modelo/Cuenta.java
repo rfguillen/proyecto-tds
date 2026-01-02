@@ -33,7 +33,7 @@ public abstract class Cuenta {
 		        throw new IllegalArgumentException("El dinero a ingresar debe ser positivo");
 		    }
 		this.saldo+=dinero;
-		Movimiento m= new Movimiento("Ingreso%dinero", dinero, LocalDateTime.now(), INGRESO);
+		Movimiento m= new Movimiento("Ingreso de " + dinero + "€", dinero, LocalDateTime.now(), INGRESO);
 		movimientos.add(m);
 	}
 	
@@ -48,7 +48,7 @@ public abstract class Cuenta {
 		
 		else {
 			saldo-=dinero;
-			Movimiento m= new Movimiento("Retirar%dinero", dinero, LocalDateTime.now(), GASTO);
+			Movimiento m= new Movimiento("Retida de " + dinero + "€", dinero, LocalDateTime.now(), GASTO);
 			movimientos.add(m);
 			return true;
 		}
@@ -87,5 +87,5 @@ public abstract class Cuenta {
 		this.saldo = saldo;
 	}
 	
-	}
-
+	public abstract double getSaldoParaUsuario(String nombreUsuario);
+}

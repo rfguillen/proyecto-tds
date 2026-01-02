@@ -33,20 +33,22 @@ public class Usuario {
 		return movimientosUsuario;
 	}
 	
-	
-	
 	public double getSaldoTotal() {
 		double saldo=0;
 		
+		// Sumar saldo de la cuenta personal
+		if (cuentaPersonal != null) {
+			saldo += cuentaPersonal.getSaldo();
+		}
+		
+		// Sumar saldo (deudas) en las cuentas compartidas
+		// He supuesto que el nombre del participante en el grupo es igual al nombre del usuario
+		for (Cuenta c : cuentas) {
+			saldo += c.getSaldoParaUsuario(this.nombre);
+		}
 		
 		return saldo;
 	}
-	
-	
-	
-	
-	
-	
 	
 	public String getNombre() {
 		return nombre;

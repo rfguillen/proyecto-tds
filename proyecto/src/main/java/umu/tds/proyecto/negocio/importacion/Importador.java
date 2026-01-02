@@ -3,14 +3,13 @@ package umu.tds.proyecto.negocio.importacion;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import umu.tds.proyecto.negocio.modelo.Categoria;
-import umu.tds.proyecto.negocio.modelo.Gasto;
+import umu.tds.proyecto.negocio.modelo.Movimiento;
 import umu.tds.proyecto.negocio.modelo.GastoCompartido;
 import umu.tds.proyecto.negocio.modelo.Participante;
 
@@ -51,21 +50,19 @@ public class Importador implements InterfazImportador {
 		    	 //TODO:?? saber la concurrencia es necesario??
 		    	 //String concurrencia = campos[7];
 		    	 
-		    	 // pasa el string fecha a localDate
 		    	 LocalDateTime f = LocalDateTime.parse(fecha1, DateTimeFormatter.ofPattern("M/d/yyyy H:mm"));
-		    	 LocalDate fecha = f.toLocalDate();							// fecha
 		    	 
-		    	 Gasto gasto;
+		    	 Movimiento gasto;
 		    	 
 		    	 // Si la cuenta es compartida
 		    	 if (cuenta.startsWith("Compartida")) {						
-		    		 Participante p = new Participante(pagador, "", 0.0);
-		    		 gasto = new GastoCompartido(subcategoria, cantidad, fecha, categoria, p);
+		    		 Participante p = new Participante(pagador, 0.0);
+		    		 gasto = new GastoCompartido(subcategoria, cantidad, f, categoria, p);
 		    		 
 		    	 }
 		    	 // Si la cuenta no lo es 
 		    	 else {
-		    		 gasto = new Gasto(subcategoria, cantidad, fecha, categoria);
+		    		 gasto = new Movimiento(subcategoria, cantidad, f, categoria);
 		    	 }
 		    	 
 		    	 //añadir dato

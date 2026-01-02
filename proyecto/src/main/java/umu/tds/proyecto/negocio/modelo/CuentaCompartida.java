@@ -36,7 +36,7 @@ public class CuentaCompartida extends Cuenta {
 		}
 		
 		for (Participante p : participantes) {
-			// Calcular lo que ha pagado el participante p
+			// Calcular lo que ha pagado o aportado el participante p
 			double pagado = 0.0;
 			for (Movimiento m : movimientos) {
 				pagado += m.getCantidadPagadaPor(p);
@@ -49,6 +49,21 @@ public class CuentaCompartida extends Cuenta {
 			p.setSaldo(pagado - debePagar);}
 		}
 		
+	
+	@Override
+	public double getSaldoParaUsuario(String nombreUsuario) {
+		this.calcularSaldos();
+		
+		// Buscar al participante por nombre
+		for (Participante p : participantes) {
+			if (p.getNombre().equals(nombreUsuario)) {
+				return p.getSaldo();
+			}
+		}
+		
+		// Si no estuviera en el grupo el saldo es 0
+		return 0.0;
+	}
 
 	public void ingresarDinero(double dinero, Participante participante) {
 	    // Validaciones
@@ -62,17 +77,13 @@ public class CuentaCompartida extends Cuenta {
 	    // Actualizar saldo total de la cuenta
 	    this.saldo += dinero;
 	    
-	    // Crear y registrar el movimiento
-	    Movimiento m = new Movimiento("Ingreso", dinero, LocalDateTime.now(),INGRESO);
+	    // Crear y registrar el movimiento, con GastoCompartido para que conste que él puso el dinero
+	    GastoCompartido m = new GastoCompartido("Ingreso de " + participante.getNombre(), dinero, LocalDateTime.now(), INGRESO, participante);
 	    movimientos.add(m);
 	    
-	    
-	    double dineroActual = participante.getSaldo();
-	    participante.setSaldo(dineroActual + dinero);
+	    // Recalcular
+	    this.calcularSaldos();
 	}
-	
-	
-	
 	
 	public boolean sacarDinero(double dinero,Participante participante) {
 		
@@ -84,14 +95,17 @@ public class CuentaCompartida extends Cuenta {
 		    throw new IllegalArgumentException("El participante no puede ser nulo");
 		    }
 		    
+		// Actualizar el saldo
+		this.saldo -= dinero;
 		
-		else {
-			 double dineroActual = participante.getSaldo();
-			    participante.setSaldo(dineroActual + dinero);
-			Movimiento m= new Movimiento("Retirar", dinero, LocalDateTime.now(),GASTO);
-			movimientos.add(m);
-			return true;
-		}
+		// Crear el movimiento
+		GastoCompartido m = new GastoCompartido("Retirada de " + participante.getNombre(), dinero, LocalDateTime.now(), GASTO, participante);
+		movimientos.add(m);
+		
+		// Recalcular
+		this.calcularSaldos();
+		
+		return true;
 		
 	}
 }
