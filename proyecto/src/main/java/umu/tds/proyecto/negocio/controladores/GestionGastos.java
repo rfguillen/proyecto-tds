@@ -185,14 +185,14 @@ public class GestionGastos {
 	
 		List<CuentaGasto> lista = importador.importar(fichero); //importar los gastos a una lista
 
-		for (CuentaGasto cg : lista) {
+		for (CuentaGasto cuenta : lista) {
 	
-			Movimiento g = cg.getGasto();	
+			Movimiento movimiento = cuenta.getGasto();	
     
-			g.setCategoria(confirmarCategoria(g.getCategoria().getNombre()));
+			movimiento.setCategoria(confirmarCategoria(movimiento.getCategoria().getNombre()));
 
 			// Resolver cuenta destino
-			String nombreCuenta = cg.getNombreCuenta();
+			String nombreCuenta = cuenta.getNombreCuenta();
 
 			Cuenta destino = null;
 			
@@ -210,7 +210,7 @@ public class GestionGastos {
 	        	
 	        }
 
-	        registrarGasto(g, destino);
+	        registrarGasto(movimiento, destino);
 	       
 		}
 	}
