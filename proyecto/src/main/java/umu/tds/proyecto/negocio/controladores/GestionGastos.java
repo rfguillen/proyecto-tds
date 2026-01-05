@@ -3,7 +3,10 @@ package umu.tds.proyecto.negocio.controladores;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import umu.tds.proyecto.adapters.repository.RepositorioCategorias;
 import umu.tds.proyecto.adapters.repository.RepositorioUsuarios;
@@ -38,7 +41,12 @@ public class GestionGastos {
 
 		this.usuarioActual = new Usuario("Prueba");
 	}
-	
+	public static List<Movimiento> ordenarPorCategoria(Map<String, Movimiento> mapaGastos) {
+        return mapaGastos.values().stream()
+        		.sorted(Comparator.comparing(m->m.getCategoria().getNombre()))
+                .collect(Collectors.toList());
+    }
+
 	//Singleton: Asegurar clase tiene instancia unica y punto de acceso unico
 	public static GestionGastos getInstancia() {
 		if (unicaInstancia == null)  unicaInstancia = new GestionGastos(); 
