@@ -23,6 +23,7 @@ public class GestionGastos {
 	private static GestionGastos unicaInstancia;
 	
 	
+	
 	private Usuario usuarioActual;
 	
 	private RepositorioCategorias repositorioCategorias;

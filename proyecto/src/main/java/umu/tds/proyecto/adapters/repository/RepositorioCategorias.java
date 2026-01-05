@@ -7,6 +7,7 @@ import umu.tds.proyecto.negocio.modelo.*;
 
 public class RepositorioCategorias {
 	
+	
 	private Map<String, Categoria> categorias;
 	
 	public RepositorioCategorias() {

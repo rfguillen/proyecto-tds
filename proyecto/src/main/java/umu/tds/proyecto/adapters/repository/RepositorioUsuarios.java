@@ -7,6 +7,7 @@ import umu.tds.proyecto.negocio.modelo.Usuario;
 
 public class RepositorioUsuarios {
 	
+	
 	private Map<String, Usuario> usuarios;
 	
 	public RepositorioUsuarios() {
