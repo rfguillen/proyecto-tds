@@ -14,8 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="umu.tds.proyecto.vista.EstadisticasController">
    <top>
       <HBox prefHeight="37.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -27,7 +26,7 @@
                   <Insets left="10.0" top="5.0" />
                </HBox.margin>
             </Label>
-            <Button mnemonicParsing="false" text="Cerrar">
+            <Button fx:id="actionCerrar" mnemonicParsing="false" text="Cerrar">
                <HBox.margin>
                   <Insets left="320.0" top="6.0" />
                </HBox.margin>
@@ -42,7 +41,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <BarChart prefHeight="343.0" prefWidth="600.0">
+                        <BarChart fx:id="graficoBarras" prefHeight="343.0" prefWidth="600.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
@@ -58,7 +57,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <PieChart layoutY="1.0" prefHeight="333.0" prefWidth="600.0" />
+                        <PieChart fx:id="graficoCircular" layoutY="1.0" prefHeight="333.0" prefWidth="600.0" />
                      </children>
                   </AnchorPane>
             </content>
