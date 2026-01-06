@@ -13,8 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="389.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="389.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="umu.tds.proyecto.vista.VistaFiltrarController">
    <children>
       <Label text="Filtrar Movimientos">
          <font>
@@ -45,30 +44,30 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <DatePicker prefHeight="25.0" prefWidth="233.0" GridPane.columnIndex="1" />
+            <DatePicker fx:id="dateInicio" prefHeight="25.0" prefWidth="233.0" GridPane.columnIndex="1" />
             <Label text="Fecha Fin:" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <DatePicker prefHeight="25.0" prefWidth="233.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <DatePicker fx:id="dateFin" prefHeight="25.0" prefWidth="233.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="Categoría:" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <ComboBox prefWidth="233.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ComboBox fx:id="selectorCategoria" prefWidth="233.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Importe Mín:" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <TextField fx:id="textoImporteMin" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets right="23.0" />
                </GridPane.margin>
             </TextField>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <TextField fx:id="textoImporteMax" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets right="23.0" />
                </GridPane.margin>
@@ -85,12 +84,12 @@
       </GridPane>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" text="Limpiar Todo">
+            <Button mnemonicParsing="false" onAction="#actionLimpiar" text="Limpiar Todo">
                <HBox.margin>
                   <Insets left="30.0" top="30.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Aplicar Filtros">
+            <Button mnemonicParsing="false" onAction="#actionAplicar" text="Aplicar Filtros">
                <HBox.margin>
                   <Insets left="150.0" top="30.0" />
                </HBox.margin>
