@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="444.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="444.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="umu.tds.proyecto.vista.VistaGrupoController">
    <children>
       <Label text="Crear Nuevo Grupo">
          <font>
@@ -31,7 +30,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField prefHeight="25.0" prefWidth="421.0" style="-fx-font-family: a;" text="Ejemplo: Viaje a Málaga">
+            <TextField fx:id="textoNombreGrupo" prefHeight="25.0" prefWidth="421.0" style="-fx-font-family: a;" text="Ejemplo: Viaje a Málaga">
                <VBox.margin>
                   <Insets left="18.0" right="18.0" top="5.0" />
                </VBox.margin>
@@ -48,27 +47,27 @@
       </VBox>
       <HBox prefHeight="58.0" prefWidth="384.0">
          <children>
-            <TextField text="Nombre Persona">
+            <TextField fx:id="textoNombreParticipante" text="Nombre Persona">
                <HBox.margin>
                   <Insets left="18.0" top="5.0" />
                </HBox.margin>
             </TextField>
-            <TextField prefHeight="25.0" prefWidth="154.0" text="(Opcional) % Participacion">
+            <TextField fx:id="textoPorcentaje" prefHeight="25.0" prefWidth="154.0" text="(Opcional) % Participacion">
                <HBox.margin>
                   <Insets left="10.0" top="5.0" />
                </HBox.margin>
             </TextField>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Añadir">
+            <Button fx:id="actionAnadirParticipante" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Añadir">
                <HBox.margin>
                   <Insets left="18.0" top="5.0" />
                </HBox.margin>
             </Button>
          </children>
       </HBox>
-      <TableView prefHeight="188.0" prefWidth="414.0">
+      <TableView fx:id="tablaParticipantes" prefHeight="188.0" prefWidth="414.0">
         <columns>
-          <TableColumn prefWidth="208.0" text="Nombre" />
-          <TableColumn prefWidth="205.0" text="\% Participación" />
+          <TableColumn fx:id="columnaNombreParticipante" prefWidth="208.0" text="Nombre" />
+          <TableColumn fx:id="columnaPorcentaje" prefWidth="205.0" text="\% Participación" />
         </columns>
          <VBox.margin>
             <Insets left="15.0" right="15.0" />
@@ -76,12 +75,12 @@
       </TableView>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" text="Cancelar">
+            <Button fx:id="actionCancelar" mnemonicParsing="false" text="Cancelar">
                <HBox.margin>
                   <Insets left="35.0" top="30.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Crear Grupo">
+            <Button fx:id="actionCrearGrupo" mnemonicParsing="false" text="Crear Grupo">
                <HBox.margin>
                   <Insets left="220.0" top="30.0" />
                </HBox.margin>
