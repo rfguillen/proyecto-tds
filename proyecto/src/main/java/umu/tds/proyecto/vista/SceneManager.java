@@ -28,7 +28,7 @@ public class SceneManager {
 		abrirVentana("VistaGasto");
 	}
 	
-	public void showVistoGrupo() {
+	public void showVistaGrupo() {
 		abrirVentana("VistaGrupo");
 	}
 	

@@ -1,7 +1,7 @@
 package umu.tds.proyecto.vista;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
+import umu.tds.proyecto.Configuracion;
 import umu.tds.proyecto.negocio.modelo.Categoria;
 import umu.tds.proyecto.negocio.modelo.Movimiento;
 
@@ -13,7 +13,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class VentanaPrincipalController {
 
@@ -52,27 +53,27 @@ public class VentanaPrincipalController {
     
     @FXML
     void actionAbrirFiltros(ActionEvent event) {
-    	
+    	Configuracion.getInstancia().getSceneManager().showVistaFiltrar();
     }
 
     @FXML
     void actionAbrirTerminal(ActionEvent event) {
-
+    
     }
 
     @FXML
     void actionAnadirAlerta(ActionEvent event) {
-
+    	Configuracion.getInstancia().getSceneManager().showVistaAlerta();
     }
 
     @FXML
     void actionAnadirGasto(ActionEvent event) {
-
+    	Configuracion.getInstancia().getSceneManager().showVistaGasto();
     }
 
     @FXML
     void actionCambiarCuenta(ActionEvent event) {
-
+    	
     }
 
     @FXML
