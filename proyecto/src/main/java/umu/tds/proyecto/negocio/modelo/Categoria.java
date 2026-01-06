@@ -14,20 +14,20 @@ public class Categoria {
 		return nombre;
 	}
 	
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
 	
-	@Override
-	public String toString() {
-		return nombre;
-	}
+	
+
 	
 	@Override
 	public int hashCode() {
 		return Objects.hash(nombre);
 	}
 	
+	@Override
+	public String toString() {
+		return this.getClass().getName()+"[nombre=" + nombre + "]";
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {

@@ -2,14 +2,14 @@ package umu.tds.proyecto.negocio.modelo;
 
 public class ManejadorExcepciones {
 
-	//conforme sigamos avanzando loa ampliare
+	//conforme sigamos avanzando lo ampliare
 
 	    public static void error(Exception e) {
 	      
 	        System.err.println("ERROR: " + e.getClass().getName() + " - " + e.getMessage());
 	        e.printStackTrace();
 
-	        // 2. Mensaje “amigable” según el tipo de excepción
+	        //  Mensaje  según el tipo de excepción
 	        if (e instanceof NullPointerException) {
 	            mostrarMensajeUsuario("Se produjo un error interno. Faltan datos necesarios.");
 	        } else if (e instanceof IllegalArgumentException) {
