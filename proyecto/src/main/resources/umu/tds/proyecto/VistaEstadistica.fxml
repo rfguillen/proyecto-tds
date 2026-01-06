@@ -26,7 +26,7 @@
                   <Insets left="10.0" top="5.0" />
                </HBox.margin>
             </Label>
-            <Button fx:id="actionCerrar" mnemonicParsing="false" text="Cerrar">
+            <Button mnemonicParsing="false" onAction="#actionCerrar" text="Cerrar">
                <HBox.margin>
                   <Insets left="320.0" top="6.0" />
                </HBox.margin>

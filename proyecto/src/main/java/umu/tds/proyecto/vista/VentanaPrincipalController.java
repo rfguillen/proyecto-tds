@@ -3,6 +3,7 @@ package umu.tds.proyecto.vista;
 import java.time.LocalDateTime;
 import umu.tds.proyecto.Configuracion;
 import umu.tds.proyecto.negocio.modelo.Categoria;
+import umu.tds.proyecto.negocio.modelo.Cuenta;
 import umu.tds.proyecto.negocio.modelo.Movimiento;
 
 import javafx.event.ActionEvent;
@@ -13,8 +14,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class VentanaPrincipalController {
 
@@ -37,7 +36,7 @@ public class VentanaPrincipalController {
     private TextArea panelNotificaciones;
 
     @FXML
-    private ComboBox<String> selectorCuenta;
+    private ComboBox<Cuenta> selectorCuenta;
 
     @FXML
     private TableView<Movimiento> tablaMovimientos;
@@ -48,8 +47,16 @@ public class VentanaPrincipalController {
     	columnaConcepto.setCellValueFactory(new PropertyValueFactory<>("concepto"));
     	columnaCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
     	columnaImporte.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+    	
+    	// TODO: Cargar cuentas del usuario
     }
     
+    private void actualizarSaldo() {
+    	if (selectorCuenta.getValue() != null) {
+    		double saldo = selectorCuenta.getValue().getSaldo();
+    		etiquetaSaldoTotal.setText(String.format("%.2f €", saldo));
+    	}
+    }
     
     @FXML
     void actionAbrirFiltros(ActionEvent event) {
@@ -73,17 +80,17 @@ public class VentanaPrincipalController {
 
     @FXML
     void actionCambiarCuenta(ActionEvent event) {
-    	
+    	//hacer
     }
 
     @FXML
     void actionCrearGrupo(ActionEvent event) {
-
+    	Configuracion.getInstancia().getSceneManager().showVistaGrupo();
     }
 
     @FXML
     void actionImportar(ActionEvent event) {
-
+    	Configuracion.getInstancia().getSceneManager().showVistaImportador();
     }
 
     @FXML
@@ -93,7 +100,7 @@ public class VentanaPrincipalController {
 
     @FXML
     void actionVerEstadisticas(ActionEvent event) {
-
+    	Configuracion.getInstancia().getSceneManager().showVistaEstadistica();
     }
 
 }
