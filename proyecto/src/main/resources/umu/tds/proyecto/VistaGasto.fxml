@@ -13,8 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="283.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="283.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="umu.tds.proyecto.vista.VistaGastoController">
    <children>
       <Label text="Registrar Nuevo Gasto">
          <font>
@@ -47,7 +46,7 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <TextField prefHeight="25.0" prefWidth="169.0" text="Ej: Compra Mercadona" GridPane.columnIndex="1">
+            <TextField fx:id="textoConcepto" prefHeight="25.0" prefWidth="169.0" text="Ej: Compra Mercadona" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets right="15.0" />
                </GridPane.margin>
@@ -57,7 +56,7 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <TextField text="0.00" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="textoImporte" text="0.00" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets right="15.0" />
                </GridPane.margin>
@@ -67,7 +66,7 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <DatePicker prefHeight="25.0" prefWidth="166.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <DatePicker fx:id="dateFecha" prefHeight="25.0" prefWidth="166.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Categoría:" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="20.0" />
@@ -75,12 +74,12 @@
             </Label>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <ComboBox prefHeight="25.0" prefWidth="136.0">
+                  <ComboBox fx:id="selectorCategoria" onAction="#actionCambiarCategoria" prefHeight="25.0" prefWidth="136.0">
                      <HBox.margin>
                         <Insets top="12.0" />
                      </HBox.margin>
                   </ComboBox>
-                  <Button mnemonicParsing="false" text="+">
+                  <Button mnemonicParsing="false" onAction="#actionNuevaCategoria" text="+">
                      <HBox.margin>
                         <Insets left="5.0" top="12.0" />
                      </HBox.margin>
@@ -94,12 +93,12 @@
       </GridPane>
       <HBox prefHeight="68.0" prefWidth="283.0">
          <children>
-            <Button mnemonicParsing="false" text="Cancelar">
+            <Button mnemonicParsing="false" onAction="#actionCancelar" text="Cancelar">
                <HBox.margin>
                   <Insets left="20.0" top="20.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Guardar Gasto">
+            <Button mnemonicParsing="false" onAction="#actionGuardarGasto" prefHeight="25.0" prefWidth="151.0" text="Guardar Gasto">
                <HBox.margin>
                   <Insets left="30.0" top="20.0" />
                </HBox.margin>
