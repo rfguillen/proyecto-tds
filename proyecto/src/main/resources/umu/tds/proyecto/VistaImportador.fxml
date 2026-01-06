@@ -39,7 +39,7 @@
             </VBox>
             <VBox prefHeight="100.0" prefWidth="62.0">
                <children>
-                  <Button fx:id="actionExaminar" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="...">
+                  <Button mnemonicParsing="false" onAction="#actionExaminar" prefHeight="25.0" prefWidth="29.0" text="...">
                      <VBox.margin>
                         <Insets left="10.0" top="5.0" />
                      </VBox.margin>
@@ -50,12 +50,12 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button fx:id="actionCancelar" mnemonicParsing="false" text="Cancelar">
+            <Button mnemonicParsing="false" onAction="#actionCancelar" text="Cancelar">
                <HBox.margin>
                   <Insets left="20.0" top="13.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="actionImportar" mnemonicParsing="false" text="Importar">
+            <Button mnemonicParsing="false" onAction="#actionImportar" text="Importar">
                <HBox.margin>
                   <Insets left="190.0" top="13.0" />
                </HBox.margin>
