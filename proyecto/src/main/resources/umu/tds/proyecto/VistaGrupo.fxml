@@ -30,7 +30,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="textoNombreGrupo" prefHeight="25.0" prefWidth="421.0" style="-fx-font-family: a;" text="Ejemplo: Viaje a Málaga">
+            <TextField fx:id="textoNombreGrupo" prefHeight="25.0" prefWidth="421.0" promptText="Ejemplo: Viaje a Málaga" style="-fx-font-family: a;">
                <VBox.margin>
                   <Insets left="18.0" right="18.0" top="5.0" />
                </VBox.margin>
@@ -47,17 +47,17 @@
       </VBox>
       <HBox prefHeight="58.0" prefWidth="384.0">
          <children>
-            <TextField fx:id="textoNombreParticipante" text="Nombre Persona">
+            <TextField fx:id="textoNombreParticipante" promptText="Nombre Persona">
                <HBox.margin>
                   <Insets left="18.0" top="5.0" />
                </HBox.margin>
             </TextField>
-            <TextField fx:id="textoPorcentaje" prefHeight="25.0" prefWidth="154.0" text="(Opcional) % Participacion">
+            <TextField fx:id="textoPorcentaje" prefHeight="25.0" prefWidth="154.0" promptText="(Opcional) % Participacion">
                <HBox.margin>
                   <Insets left="10.0" top="5.0" />
                </HBox.margin>
             </TextField>
-            <Button fx:id="actionAnadirParticipante" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Añadir">
+            <Button mnemonicParsing="false" onAction="#actionAnadirParticipante" prefHeight="25.0" prefWidth="77.0" text="Añadir">
                <HBox.margin>
                   <Insets left="18.0" top="5.0" />
                </HBox.margin>
@@ -75,12 +75,12 @@
       </TableView>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button fx:id="actionCancelar" mnemonicParsing="false" text="Cancelar">
+            <Button mnemonicParsing="false" onAction="#actionCancelar" text="Cancelar">
                <HBox.margin>
                   <Insets left="35.0" top="30.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="actionCrearGrupo" mnemonicParsing="false" text="Crear Grupo">
+            <Button mnemonicParsing="false" onAction="#actionCrearGrupo" text="Crear Grupo">
                <HBox.margin>
                   <Insets left="220.0" top="30.0" />
                </HBox.margin>
