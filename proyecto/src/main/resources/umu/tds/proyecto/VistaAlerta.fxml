@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="231.0" prefWidth="337.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="231.0" prefWidth="337.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="umu.tds.proyecto.vista.VistaAlertaController">
    <children>
       <Label text="Nueva Alerta">
          <font>
@@ -33,7 +32,7 @@
                   <Font size="13.0" />
                </font>
             </Label>
-            <ComboBox prefHeight="25.0" prefWidth="300.0" promptText="Categoría">
+            <ComboBox fx:id="selectorCategoria" prefHeight="25.0" prefWidth="300.0" promptText="Categoría">
                <VBox.margin>
                   <Insets left="18.0" top="5.0" />
                </VBox.margin>
@@ -50,7 +49,7 @@
                   <Font size="13.0" />
                </font>
             </Label>
-            <TextField prefHeight="25.0" prefWidth="300.0">
+            <TextField fx:id="textoCantidad" prefHeight="25.0" prefWidth="300.0">
                <VBox.margin>
                   <Insets left="18.0" right="20.0" top="5.0" />
                </VBox.margin>
@@ -59,12 +58,12 @@
       </VBox>
       <HBox prefHeight="67.0" prefWidth="339.0">
          <children>
-            <Button mnemonicParsing="false" text="Cancelar">
+            <Button mnemonicParsing="false" onAction="#actionCancelar" text="Cancelar">
                <HBox.margin>
                   <Insets left="20.0" top="15.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Crear Alerta">
+            <Button mnemonicParsing="false" onAction="#actionGuardar" text="Crear Alerta">
                <HBox.margin>
                   <Insets left="155.0" top="15.0" />
                </HBox.margin>
