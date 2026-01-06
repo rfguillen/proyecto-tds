@@ -1,72 +1,78 @@
 package umu.tds.proyecto.negocio.modelo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
+import java.util.Objects;
 
 public class Usuario {
 
-	private String nombre;
-	private CuentaPersonal cuentaPersonal;
-	private List<Cuenta> cuentas;
+	private final String nombre;
+	private final CuentaPersonal cuentaPrincipal; // La cuenta base que siempre tiene
+	private List<Cuenta> cuentas; // Aquí irán la principal + todas las compartidas/nuevas
 	
 	public Usuario(String nombre) {
-		this.nombre = nombre;
+		this.nombre = Objects.requireNonNull(nombre, "El nombre es obligatorio");
 		this.cuentas = new ArrayList<>();
-		// Al crear un usuario le damos una cuenta personal
-		this.cuentaPersonal = new CuentaPersonal("Mis Gastos");
-		this.cuentas.add(this.cuentaPersonal);
-	}
-	
-	
-	public List<Movimiento> getGastosTotales () {
-		List<Movimiento> movimientosUsuario= new ArrayList<Movimiento>();
-	
 		
-		for (Cuenta c : cuentas) {   //recorro las cuentas para sacar los gastos
-			List<Movimiento> movimientosCuenta=c.getMovimientos();
-			
-			for (Movimiento m : movimientosCuenta) {//añado los gastos de cada cuenta
-				movimientosUsuario.add(m);
-			}
-		}
-		return movimientosUsuario;
+		// Al crear un usuario, inicializamos su cuenta principal
+		this.cuentaPrincipal = new CuentaPersonal("Gastos de " + nombre);
+		
+		// La añadimos a la lista global de cuentas
+		this.addCuenta(this.cuentaPrincipal);
 	}
 	
+	/**
+	 * Calcula el saldo sumando lo que el usuario tiene en CADA una de sus cuentas.
+	 * Gracias al polimorfismo, no importa si la cuenta es personal o compartida.
+	 */
 	public double getSaldoTotal() {
-		double saldo=0;
-		
-		// Sumar saldo de la cuenta personal
-		if (cuentaPersonal != null) {
-			saldo += cuentaPersonal.getSaldo();
-		}
-		
-		// Sumar saldo (deudas) en las cuentas compartidas
-		// He supuesto que el nombre del participante en el grupo es igual al nombre del usuario
-		for (Cuenta c : cuentas) {
-			saldo += c.getSaldoParaUsuario(this.nombre);
-		}
-		
-		return saldo;
+		return cuentas.stream()
+				.mapToDouble(c -> c.getSaldoParaUsuario(this.nombre))
+				.sum();
 	}
 	
+	/**
+	 * Obtiene todos los movimientos de todas las cuentas en las que participa.
+	 */
+	public List<Movimiento> getGastosTotales() {
+		List<Movimiento> todos = new ArrayList<>();
+		for (Cuenta c : cuentas) {
+			todos.addAll(c.getMovimientos());
+		}
+		return todos;
+	}
+
+	/**
+	 * Permite al usuario unirse a una nueva cuenta (ej. un grupo de gastos compartido).
+	 */
+	public void addCuenta(Cuenta cuenta) {
+		Objects.requireNonNull(cuenta, "La cuenta no puede ser nula");
+		// Evitamos duplicados para no sumar el saldo dos veces 
+		if (!this.cuentas.contains(cuenta)) {
+			this.cuentas.add(cuenta);
+		}
+	}
+	
+	// --- Getters con protección ---
+
 	public String getNombre() {
 		return nombre;
 	}
-	
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	
+
 	public List<Cuenta> getCuentas() {
-		return cuentas;
+		// Protección contra modificaciones externas 
+		return Collections.unmodifiableList(cuentas);
 	}
-	
-	public void addCuenta(Cuenta cuenta) {
-		this.cuentas.add(cuenta);
+
+	public CuentaPersonal getCuentaPrincipal() {
+		return cuentaPrincipal;
 	}
-	
-	public CuentaPersonal getCuentaPersonal() {
-		return this.cuentaPersonal;
+
+	@Override
+	public String toString() {
+		return this.getClass().getName()+ "[nombre=" + nombre + ", cuentaPrincipal=" + cuentaPrincipal + ", cuentas=" + cuentas + "]";
 	}
-}
+
+	}
+
