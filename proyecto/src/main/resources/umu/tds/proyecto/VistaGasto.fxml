@@ -46,7 +46,7 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="textoConcepto" prefHeight="25.0" prefWidth="169.0" text="Ej: Compra Mercadona" GridPane.columnIndex="1">
+            <TextField fx:id="textoConcepto" prefHeight="25.0" prefWidth="169.0" promptText="Ej: Compra Mercadona" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets right="15.0" />
                </GridPane.margin>
@@ -56,7 +56,7 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </Label>
-            <TextField fx:id="textoImporte" text="0.00" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="textoImporte" promptText="0.00" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets right="15.0" />
                </GridPane.margin>
