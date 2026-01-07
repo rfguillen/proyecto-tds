@@ -56,4 +56,3 @@ El sistema de importación utiliza la interfaz **InterfazImportador** para permi
 La clase abstracta **Cuenta** define el comportamiento común de todas las cuentas, dejando el método **getSaldoParaUsuario()** como abstracto para que cada tipo de cuenta lo implemente según su lógica específica.
 
 
-# 6.  Breve manual de usuario (debe incluir capturas de las ventanas para apoyar las explicaciones)
