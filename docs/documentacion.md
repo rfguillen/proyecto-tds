@@ -14,8 +14,6 @@ La clase **Usuario** contendrá la información del usuario. Tendrá su nombre, 
 
 Todas las clases **Cuenta** contienen una colección de **Movimiento**. Estos representan un gasto o un ingreso y poseen los atributos concepto, cantidad, fecha y categoría. Las **Categoría** sirven para clasificar los movimientos y facilitar su análisis. En las cuentas compartidas, se pueden tener movimientos de tipo **GastoCompartido**, que además de los datos anteriores indican qué **Participante** ha realizado el pago. Esto es lo que permite realizar los cálculos de cuánto se debe a cada participante o cuánto debe cada participante dentro de la cuenta.
 
-# 3.  Un diagrama de interacción para la una de las historias de usuario (a elección del grupo)
-
 ## Diagrama de interacción para Registrar Gasto.
 ![Diagrama de clases](imagenes/DiagramaDeInteraccion.png)
 
