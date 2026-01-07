@@ -146,6 +146,9 @@
                   <TableColumn fx:id="columnaCategoria" minWidth="5.0" prefWidth="160.0" text="Categoría" />
                   <TableColumn fx:id="columnaImporte" prefWidth="113.0" text="Importe" />
               </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
             </TableView>
          </children>
       </VBox>
@@ -153,9 +156,24 @@
    <right>
       <VBox prefHeight="537.0" prefWidth="161.0" BorderPane.alignment="CENTER">
          <children>
+            <Button mnemonicParsing="false" onAction="#actionIngresarDinero" prefWidth="105.0" text="Ingresar Dinero">
+               <VBox.margin>
+                  <Insets bottom="25.0" left="25.0" top="120.0" />
+               </VBox.margin>
+            </Button>
             <Button mnemonicParsing="false" onAction="#actionAnadirGasto" prefHeight="25.0" prefWidth="105.0" text="Añadir Gasto">
                <VBox.margin>
-                  <Insets left="25.0" top="200.0" />
+                  <Insets left="25.0" />
+               </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#actionBorrarGasto" prefWidth="105.0" text="Borrar Gasto">
+               <VBox.margin>
+                  <Insets left="25.0" top="25.0" />
+               </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#actionModificarGasto" prefWidth="105.0" text="Modificar Gasto">
+               <VBox.margin>
+                  <Insets left="25.0" top="25.0" />
                </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#actionCrearGrupo" prefHeight="25.0" prefWidth="105.0" text="Crear Grupo">

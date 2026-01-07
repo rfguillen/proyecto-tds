@@ -2,6 +2,7 @@ package umu.tds.proyecto.negocio.controladores;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -12,261 +13,211 @@ import umu.tds.proyecto.adapters.repository.RepositorioCategorias;
 import umu.tds.proyecto.adapters.repository.RepositorioUsuarios;
 import umu.tds.proyecto.negocio.importacion.CuentaGasto;
 import umu.tds.proyecto.negocio.importacion.Importador;
+import umu.tds.proyecto.negocio.modelo.Alerta;
 import umu.tds.proyecto.negocio.modelo.Categoria;
 import umu.tds.proyecto.negocio.modelo.Cuenta;
 import umu.tds.proyecto.negocio.modelo.CuentaCompartida;
 import umu.tds.proyecto.negocio.modelo.CuentaPersonal;
 import umu.tds.proyecto.negocio.modelo.Movimiento;
+import umu.tds.proyecto.negocio.modelo.Notificacion;
 import umu.tds.proyecto.negocio.modelo.GastoCompartido;
 import umu.tds.proyecto.negocio.modelo.Participante;
 import umu.tds.proyecto.negocio.modelo.Usuario;
+import umu.tds.proyecto.vista.VentanaPrincipalController;
 
 public class GestionGastos {
-	
-	private static GestionGastos unicaInstancia;
-	
-	
-	
-	private Usuario usuarioActual;
-	
-	private RepositorioCategorias repositorioCategorias;
-	private RepositorioUsuarios repositorioUsuarios;
-	
-	private Importador importador;
-	
-	public GestionGastos() {		
-		this.repositorioCategorias = new RepositorioCategorias();
-		this.repositorioUsuarios = new RepositorioUsuarios();
-		this.importador = new Importador();
+    
+    private static GestionGastos unicaInstancia;
+    private Usuario usuarioActual;
+    private RepositorioCategorias repositorioCategorias;
+    private RepositorioUsuarios repositorioUsuarios;
+    private Importador importador;
+    
+    public GestionGastos() {        
+        this.repositorioCategorias = new RepositorioCategorias();
+        this.repositorioUsuarios = new RepositorioUsuarios();
+        this.importador = new Importador();
+        this.usuarioActual = new Usuario("Prueba");
+    }
 
-		this.usuarioActual = new Usuario("Prueba");
-	}
-	public static List<Movimiento> ordenarPorCategoria(Map<String, Movimiento> mapaGastos) {
+    public static List<Movimiento> ordenarPorCategoria(Map<String, Movimiento> mapaGastos) {
         return mapaGastos.values().stream()
-        		.sorted(Comparator.comparing(m->m.getCategoria().getNombre()))
+                .sorted(Comparator.comparing(m -> m.getCategoria().getNombre()))
                 .collect(Collectors.toList());
     }
 
-	//Singleton: Asegurar clase tiene instancia unica y punto de acceso unico
-	public static GestionGastos getInstancia() {
-		if (unicaInstancia == null)  unicaInstancia = new GestionGastos(); 
-		return unicaInstancia;
-	}
-	
-	//Cuenta Personal del usuarioActual
-	public CuentaPersonal getCuentaGlobal() {
-		return usuarioActual.getCuentaPersonal();
-	}
-	
-	//Confirmar categoria -> Se busca si existe. Si existe se devuelve, si no, se crea y se devuelve
-	
-	public Categoria confirmarCategoria(String categoria) {
-		return repositorioCategorias.buscar(categoria);
-	}
-	
-	
-	
-	
-	//Gastos------
-	
-	//REGISTRAR GASTO
-	public void registrarGasto(Movimiento gasto, Cuenta cuenta) {
-		if (cuenta == null) {
-			throw new IllegalArgumentException("Cuenta no valida");
-		}
-		//Añadimos la categoria al repositorio si es necesario
+    public static GestionGastos getInstancia() {
+        if (unicaInstancia == null) unicaInstancia = new GestionGastos(); 
+        return unicaInstancia;
+    }
+    
+    public CuentaPersonal getCuentaGlobal() {
+        return usuarioActual.getCuentaPrincipal();
+    }
+    
+    public List<Cuenta> getCuentasUsuario() {
+        if (usuarioActual == null) return new ArrayList<>();
+        return usuarioActual.getCuentas();
+    }
+    
+    public Categoria confirmarCategoria(String categoria) {
+        return repositorioCategorias.buscar(categoria);
+    }
+
+    public List<Movimiento> filtrarMovimientos(Cuenta cuenta, LocalDate inicio, LocalDate fin, Categoria categoria, Double min, Double max) {
+        if (cuenta == null) return new ArrayList<>();
+        
+        return cuenta.getMovimientos().stream()
+            .filter(m -> inicio == null || !m.getFecha().toLocalDate().isBefore(inicio))
+            .filter(m -> fin == null || !m.getFecha().toLocalDate().isAfter(fin))
+            .filter(m -> categoria == null || m.getCategoria().equals(categoria))
+            .filter(m -> min == null || m.getCantidad() >= min)
+            .filter(m -> max == null || m.getCantidad() <= max)
+            .collect(Collectors.toList());
+    }
+    
+    // REGISTRAR GASTO
+    public void registrarGasto(Movimiento gasto, Cuenta cuenta) {
+        if (cuenta == null) throw new IllegalArgumentException("Cuenta no valida");
+        
         gasto.setCategoria(confirmarCategoria(gasto.getCategoria().getNombre()));
         
-        //añadir dinero
-        cuenta.ingresarDinero(gasto.getCantidad());
+        // Registramos el movimiento (esto actualiza el saldo incrementalmente)
+        cuenta.registrarMovimientoGasto(gasto);
         
-        //En el caso de que sea una cuenta compartida recalcular los saldos
         if (cuenta instanceof CuentaCompartida cc) {
             cc.calcularSaldos();
         }
         
-        //Actualizacion de datos en el repositorio
         repositorioUsuarios.añadir(usuarioActual);
-		
-	}
-	
-	//MODIFICAR GASTO
-	
-	public void modificarGasto(Cuenta cuenta, Movimiento gastoNuevo, Movimiento gastoViejo) {
-		if (cuenta == null) {
-			throw new IllegalArgumentException("La cuenta no es valida para la modificacion");
-		}
-		if (gastoNuevo == null || gastoViejo == null) {
-			throw new IllegalArgumentException("Los gastos no son validos para modificacion");
-		}
-		//modificar el gasto viejo con los nuevos datos
-		gastoViejo.setCantidad(gastoNuevo.getCantidad());
-		gastoViejo.setConcepto(gastoNuevo.getConcepto());
-		gastoViejo.setFecha(gastoNuevo.getFecha());
-		gastoViejo.setCategoria(confirmarCategoria(gastoNuevo.getCategoria().getNombre()));
-		
-		
-		/* Si la cuenta en la que trabajamos es una cuentaa compartida y 
-		 los gastos son de tipo compartidos (Los que no asumen una sola persona)
-		 Actualizamos el pagador*/ 
-		if (cuenta instanceof CuentaCompartida cc && gastoNuevo instanceof GastoCompartido gNuevo
-				&& gastoViejo instanceof GastoCompartido gViejo) {
-
+        comprobarAlertas(cuenta, gasto);
+    }
+    
+    // MODIFICAR GASTO (Ahora usa recálculo total)
+    public void modificarGasto(Cuenta cuenta, Movimiento gastoNuevo, Movimiento gastoViejo) {
+        if (cuenta == null) throw new IllegalArgumentException("La cuenta no es valida");
+        if (gastoNuevo == null || gastoViejo == null) throw new IllegalArgumentException("Datos inválidos");
+        
+        // 1. Aplicar cambios al objeto existente
+        gastoViejo.setCantidad(gastoNuevo.getCantidad());
+        gastoViejo.setConcepto(gastoNuevo.getConcepto());
+        gastoViejo.setFecha(gastoNuevo.getFecha());
+        gastoViejo.setCategoria(confirmarCategoria(gastoNuevo.getCategoria().getNombre()));
+        
+        if (cuenta instanceof CuentaCompartida cc && gastoNuevo instanceof GastoCompartido gNuevo
+                && gastoViejo instanceof GastoCompartido gViejo) {
             gViejo.setPagador(gNuevo.getPagador());
-            
         }
-		//En el caso de que sea una cuenta compartida (sin gastos compartidos) recalcular los saldos
-		if (cuenta instanceof CuentaCompartida cc) {
+
+        // 2. FORZAR RECÁLCULO TOTAL DEL SALDO
+        // Como hemos cambiado un movimiento que ya estaba en la lista, el saldo ha quedado desfasado.
+        // Recorremos toda la lista para sumar de nuevo y obtener el saldo real.
+        cuenta.recalcularSaldo();
+
+        if (cuenta instanceof CuentaCompartida cc) {
             cc.calcularSaldos();
         }
-		//Actualizacion de datos en el repositorio
-		repositorioUsuarios.añadir(usuarioActual);
-	}
-	
-	//ELIMINAR GASTO
-	public void eliminarGasto(Cuenta cuenta, Movimiento gasto) {
-		if (cuenta == null || gasto == null) {
-			throw new IllegalArgumentException("Datos no válidos para eliminar");
-		}
-		// eliminar los gastos
-		for (Movimiento m : cuenta.getMovimientos()) {
-			if (gasto.equals(m)) {
-				
-				List<Movimiento> ListaCompleta = cuenta.getMovimientos();
-				ListaCompleta.remove(gasto);
-				cuenta.setMovimientos(ListaCompleta);
-				
-				break;
-			}
-		}
-		//En el caso de que sea una cuenta compartida recalcular los saldos
-		if (cuenta instanceof CuentaCompartida cc) {
-			cc.calcularSaldos();
-		}
-		//Actualizacion de datos en el repositorio
-		repositorioUsuarios.añadir(usuarioActual);
-	}
-	
-	//Crear Cuenta Compartida
-	
-	public CuentaCompartida crearCuentaCompartida(String cuenta, List<Participante> participantes) {
-		if (cuenta == null) {
-			throw new IllegalArgumentException("El nombre de la cuenta compartida no es valida");
-		}
-		if (participantes == null) {
-			throw new IllegalArgumentException("No se ha encontrado ningun participante");
-		}
-		
-		
-		List<Participante> listaParticipantes = new ArrayList<>(participantes);
-		
-		// Se comprueba si el reparto es 0.0 todo el rato.
-		boolean comprobarReparto = participantes.stream()
-												.allMatch(p -> p.getPorcentajeParticipacion() == 0.0);
-		// Si lo es, el reparto es completamente equitativo
-		if (comprobarReparto) {
-			double reparto = 100.0/participantes.size();
-			for (Participante p : listaParticipantes) {
-				p.setProcentajeParticipacion(reparto);
-			}
-		} else { // si no lo es comprobar que la suma de porcentajes sea la de un 100%
-			double suma = participantes.stream()
-						.mapToDouble(Participante::getPorcentajeParticipacion)
-						.sum();
-			if (Math.abs(suma - 100.0) > 0.01) {
-				throw new IllegalArgumentException( "Los porcentajes no llegan o superan un 100% -> ("+suma+")");
-			}
-		}
-		
-		CuentaCompartida cuentaFinal = new CuentaCompartida(cuenta, listaParticipantes);
-		
-		//Añadir al usuarioActual
-		usuarioActual.addCuenta(cuentaFinal);
-		
-		// Actualizar los datos del repositorio
-		repositorioUsuarios.añadir(usuarioActual);
-		
-		return cuentaFinal;
-	}
-	
-	//Importar gastos
-	public void importarGastos(Path fichero) throws IOException {
-	
-		List<CuentaGasto> lista = importador.importar(fichero); //importar los gastos a una lista
-
-		for (CuentaGasto cuenta : lista) {
-	
-			Movimiento movimiento = cuenta.getGasto();	
+        repositorioUsuarios.añadir(usuarioActual);
+    }
     
-			movimiento.setCategoria(confirmarCategoria(movimiento.getCategoria().getNombre()));
+    // ELIMINAR GASTO
+    public void eliminarGasto(Cuenta cuenta, Movimiento gasto) {
+        if (cuenta == null || gasto == null) throw new IllegalArgumentException("Datos no válidos");
+        
+        // El método de Cuenta ya elimina y llama a recalcularSaldo()
+        cuenta.eliminarMovimiento(gasto);
+        
+        if (cuenta instanceof CuentaCompartida cc) {
+            cc.calcularSaldos();
+        }
+        repositorioUsuarios.añadir(usuarioActual);
+    }
+    
+    public CuentaCompartida crearCuentaCompartida(String cuenta, List<Participante> participantes) {
+        if (cuenta == null) throw new IllegalArgumentException("Nombre no valido");
+        if (participantes == null) throw new IllegalArgumentException("Sin participantes");
+        
+        List<Participante> listaParticipantes = new ArrayList<>(participantes);
+        boolean comprobarReparto = participantes.stream().allMatch(p -> p.getPorcentajeParticipacion() == 0.0);
 
-			// Resolver cuenta destino
-			String nombreCuenta = cuenta.getNombreCuenta();
+        if (comprobarReparto) {
+            double reparto = 100.0/participantes.size();
+            for (Participante p : listaParticipantes) p.setPorcentajeParticipacion(reparto);
+        } else { 
+            double suma = participantes.stream().mapToDouble(Participante::getPorcentajeParticipacion).sum();
+            if (Math.abs(suma - 100.0) > 0.01) throw new IllegalArgumentException("Porcentajes != 100%");
+        }
+        
+        CuentaCompartida cuentaFinal = new CuentaCompartida(cuenta, listaParticipantes);
+        usuarioActual.addCuenta(cuentaFinal);
+        repositorioUsuarios.añadir(usuarioActual);
+        
+        return cuentaFinal;
+    }
+    
+    public void importarGastos(Path fichero) throws IOException {
+        List<CuentaGasto> lista = importador.importar(fichero); 
+        for (CuentaGasto cuenta : lista) {
+            Movimiento movimiento = cuenta.getGasto();    
+            movimiento.setCategoria(confirmarCategoria(movimiento.getCategoria().getNombre()));
+            String nombreCuenta = cuenta.getNombreCuenta();
+            Cuenta destino = null;
+            
+            if (nombreCuenta.equals(usuarioActual.getCuentaPrincipal().getNombre())) {
+                destino = getCuentaGlobal();
+            } else { 
+                for (Cuenta c : usuarioActual.getCuentas()) {
+                    if (c.getNombre().equals(nombreCuenta)) destino = c;
+                }
+                if (destino == null) throw new IllegalArgumentException("Cuenta destino no existe");
+            }
+            registrarGasto(movimiento, destino);
+        }
+    }
+    
+    public List<Categoria> getCategoriasDisponibles() {
+        return repositorioCategorias.getTodas();
+    }
+    
+    
+    
+    private final List<Alerta> alertas = new ArrayList<>();
+    private final List<Notificacion> notificaciones = new ArrayList<>();
 
-			Cuenta destino = null;
-			
-			if (nombreCuenta.equals(usuarioActual.getCuentaPersonal().getNombre())) {
-	            destino = getCuentaGlobal();
-	        } else { 
-	        	for (Cuenta c : usuarioActual.getCuentas()) {
-	        		if (c.getNombre().equals(nombreCuenta)) {
-	        			destino = c;
-	        		}
-	        	}
-	        	if (destino == null) {
-	        		throw new IllegalArgumentException("La cuenta a la que se quiere importar datos no existe");
-	        	}
-	        	
-	        }
+    public void crearAlerta(Alerta.Periodo periodo, double umbral, Categoria categoria) {
+        alertas.add(new Alerta(periodo, umbral, categoria));
+    }
 
-	        registrarGasto(movimiento, destino);
-	       
-		}
-	}
-	/* 	Metodos de sacar e ingresar dinero de cuenta compartida, hay tambien en la clase cuenta, si lo ves mejor borralos de sus clases y dejalos aqui
-	 public void ingresarDinero(double dinero, Participante participante) {
-	    // Validaciones
-	    if (dinero <= 0) {
-	        throw new IllegalArgumentException("El dinero a ingresar debe ser positivo");
-	    }
-	    if (participante == null) {
-	        throw new IllegalArgumentException("El participante no puede ser nulo");
-	    }
-	    
-	    // Actualizar saldo total de la cuenta
-	    this.saldo += dinero;
-	    
-	    // Crear y registrar el movimiento
-	    Movimiento m = new Movimiento("Ingreso", dinero, LocalDateTime.now(),INGRESO);
-	    movimientos.add(m);
-	    
-	    
-	    double dineroActual = participante.getSaldo();
-	    participante.setSaldo(dineroActual + dinero);
-	}
-	
-	
-	
-	
-	public boolean sacarDinero(double dinero,Participante participante) {
-		
-		if(dinero>saldo && dinero>0) {
-			throw new IllegalArgumentException("El dinero a sacar debe ser positivo y mayor que el saldo");
-			}
-		
-		if (participante == null) {
-		    throw new IllegalArgumentException("El participante no puede ser nulo");
-		    }
-		    
-		
-		else {
-			 double dineroActual = participante.getSaldo();
-			    participante.setSaldo(dineroActual + dinero);
-			Movimiento m= new Movimiento("Retirar", dinero, LocalDateTime.now(),GASTO);
-			movimientos.add(m);
-			return true;
-		}
-		
-	}*/
+    public List<Alerta> getAlertas() {
+        return List.copyOf(alertas);
+    }
+
+    public List<Notificacion> getNotificaciones() {
+        return List.copyOf(notificaciones);
+    }
+
+    public void marcarNotificacionLeida(Notificacion n) {
+        n.marcarLeida();
+    }
+    
+    
+    private void comprobarAlertas(Cuenta cuenta, Movimiento gasto) {
+        // Solo comprobamos si es un gasto
+        if (gasto.getCategoria().getNombre().equalsIgnoreCase("Ingreso")) return;
+
+        for (Alerta alerta : alertas) {
+            // Lógica simplificada: ¿El gasto actual supera el umbral de la alerta?
+            // (O puedes usar la lógica de suma semanal/mensual que te pasé antes)
+            if (alerta.getCategoria() == null || alerta.getCategoria().equals(gasto.getCategoria())) {
+                if (gasto.getCantidad() >= alerta.getUmbral()) {
+                    String msg = "¡Alerta! Gasto de " + gasto.getCantidad() + "€ supera el límite de " + alerta.getUmbral() + "€";
+                    Notificacion n = new Notificacion(msg);
+                    notificaciones.add(n);
+                    
+                    // Avisar a la vista si está abierta
+                    VentanaPrincipalController.mostrarNotificacion(msg);
+                }
+            }
+        }
+    }
 }
-

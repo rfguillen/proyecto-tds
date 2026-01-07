@@ -39,6 +39,23 @@
             </ComboBox>
          </children>
       </VBox>
+      <VBox prefHeight="74.0" prefWidth="335.0">
+   <children>
+      <Label text="Periodo:">
+         <VBox.margin>
+            <Insets left="20.0" top="10.0" />
+         </VBox.margin>
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="selectorPeriodo" prefHeight="25.0" prefWidth="300.0" promptText="Semanal / Mensual">
+         <VBox.margin>
+            <Insets left="18.0" top="5.0" />
+         </VBox.margin>
+      </ComboBox>
+   </children>
+</VBox>
       <VBox prefHeight="73.0" prefWidth="335.0">
          <children>
             <Label text="Cantidad Límite (€):">

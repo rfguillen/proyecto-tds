@@ -7,6 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import umu.tds.proyecto.App;
+import umu.tds.proyecto.negocio.modelo.Cuenta;
+import umu.tds.proyecto.negocio.modelo.Movimiento;
 
 public class SceneManager {
 	private Stage stagePrincipal;
@@ -24,8 +26,22 @@ public class SceneManager {
 		cambiarEscena("VentanaPrincipal", "Gestion Gastos");
 	}
 	
-	public void showVistaGasto() {
-		abrirVentana("VistaGasto");
+	public void showVistaGasto(Cuenta cuentaActual) {
+		try {
+			// No uso abrir ventana porque necesito el controller
+			FXMLLoader fxml = new FXMLLoader(App.class.getResource("/umu/tds/proyecto/VistaGasto.fxml"));
+			Parent root = fxml.load();
+			
+			VistaGastoController controller = fxml.getController();
+			controller.setCuenta(cuentaActual);
+			
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root));
+			stage.showAndWait();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void showVistaGrupo() {
@@ -76,8 +92,29 @@ public class SceneManager {
 	}
 	
 	private Parent loadFXML(String fxml) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("vista/" + fxml + ".fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/umu/tds/proyecto/" + fxml + ".fxml"));
 		return fxmlLoader.load();
 	}
+
+	// Método para abrir la ventana en modo EDICIÓN
+		public void showVistaGastoModificar(umu.tds.proyecto.negocio.modelo.Cuenta cuentaActual, umu.tds.proyecto.negocio.modelo.Movimiento gastoAEditar) {
+			try {
+				FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/umu/tds/proyecto/VistaGasto.fxml"));
+				Parent root = fxmlLoader.load();
+				
+				VistaGastoController controller = fxmlLoader.getController();
+
+				controller.setCuenta(cuentaActual);
+				controller.setGastoAEditar(gastoAEditar); 
+				
+				Stage stage = new Stage();
+				stage.setTitle("Modificar Movimiento");
+				stage.setScene(new Scene(root));
+				stage.showAndWait();
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	
 }

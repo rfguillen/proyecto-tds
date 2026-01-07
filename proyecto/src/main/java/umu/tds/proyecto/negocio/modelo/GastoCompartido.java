@@ -5,25 +5,28 @@ import java.util.Objects;
 
 public class GastoCompartido extends Movimiento {
 	
-	// 1. Inmutabilidad: Declaramos el atributo como final para evitar cambios post-construcción
-	private final Participante pagador;
+	private Participante pagador;
 	
 	public GastoCompartido(String concepto, double cantidad, LocalDateTime fecha, Categoria categoria, Participante pagador) {
 		super(concepto, cantidad, fecha, categoria);
 		
-		// 2. Validación de precondiciones: Robustez en el diseño
+		//  Validación de precondiciones: Robustez en el diseño
 		if (cantidad <= 0) {
 			throw new IllegalArgumentException("La cantidad del gasto debe ser positiva");
 		}
 		
-		// 3. Evitar nulos
+		// Evitar nulos
 		this.pagador = Objects.requireNonNull(pagador, "El pagador no puede ser nulo");
 	}
 	
-	// 4. Eliminamos setPagador: Para garantizar que el objeto sea inmutable (Sesión 3)
+	
 	
 	public Participante getPagador() {
 		return pagador;
+	}
+	
+	public void setPagador(Participante pagador) {
+		this.pagador = pagador;
 	}
 	
 	@Override
@@ -37,7 +40,7 @@ public class GastoCompartido extends Movimiento {
 		return 0.0;
 	}
 
-	// 6. Sobrescritura de toString (Sugerencia Sesión 2)
+	// Sobrescritura de toString
 	@Override
 	public String toString() {
 		return  this.getClass().getName()+"[pagador=" + pagador.getNombre() + ", concepto=" + getConcepto() 
