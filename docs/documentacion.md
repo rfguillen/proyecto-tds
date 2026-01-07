@@ -30,9 +30,30 @@ La clase **GestionGastos**, actuara como principal controlador del sistema. Esta
 
 El acceso y persistencia de la base de datos se realiza mediante repositorios, como **RepositorioUsuarios** y **RepositorioCategorias**, con ellos podremos gestionar correctamente los datos y facilitar posibles cambios futuros. La importación de gastos se gestiona a través de un componente **Importador**, desacoplado de la lógica principal.
 
-Como decisiones de diseño relevantes, se ha utilizado el patrón *Singleton* en **GestionGastos** para garantizar una única instancia de control. También se ha optado por el uso de herencia para diferenciar entre **CuentaPersonal** y **CuentaCompartida**, permitiendo reutilizar comportamiento de **Cuenta** y poder diferenciar cuando existen varios participantes. El sistema de alertas se integra en el flujo de registro de gastos, permitiendo detectar automáticamente cuando se superan límites definidos y generar notificaciones al usuario.
+Algunas decisiones de diseño han sido por ejemplo, utilizar el patrón *Singleton* en **GestionGastos** para garantizar una única instancia de control. También el uso de herencia para diferenciar entre **CuentaPersonal** y **CuentaCompartida**, permitiendo reutilizar **Cuenta** y poder diferenciar cuando existen varios participantes. El sistema de alertas se integra en el flujo de registro de gastos, permitiendo detectar automáticamente cuando se superan límites definidos y generar notificaciones al usuario.
 
 
-# 5.  Explicación de los patrones de diseño usados.
+## Patrones de Diseño.
+
+### Singleton
+El **Singleton** se aplica en GestionGastos para asegurar que hay una única instancia y asegurar un punto de acceso global.
+> public static GestionGastos getInstancia() {
+        if (unicaInstancia == null) unicaInstancia = new GestionGastos(); 
+        return unicaInstancia;
+    }
+
+### Fachada
+SceneManager actúa como una fachada que simplifica la navegación del programa. Oculta la complejidad de cargar archivos FXML, crear escenas y la gestión de ventanas, abriéndolas y cerrándolas según las necesidades de la aplicación. De este modo, actúa como una **Fachada**.
+
+### Repositorios
+Los repositorios (**RepositorioUsuarios** y **RepositorioCategorias**) se encargan de gestionar la base de datos, facilitando el cambio de implementación sin afectar al resto del sistema. En la versión actual, se han implementado utilizando **HashMap**.
+
+### Estrategia
+El sistema de importación utiliza la interfaz **InterfazImportador** para permitir múltiples estrategias de importación. Actualmente está implementado para archivos CSV mediante la clase **Importador**, lo que permite añadir nuevos formatos sin modificar el código existente.
+
+
+### Método Plantilla
+La clase abstracta **Cuenta** define el comportamiento común de todas las cuentas, dejando el método **getSaldoParaUsuario()** como abstracto para que cada tipo de cuenta lo implemente según su lógica específica.
+
 
 # 6.  Breve manual de usuario (debe incluir capturas de las ventanas para apoyar las explicaciones)
