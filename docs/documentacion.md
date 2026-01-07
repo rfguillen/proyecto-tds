@@ -1,15 +1,21 @@
+# <ins> **DOCUMENTACION**</ins>
+
 
 ## Diagrama de clases del dominio.
 
 ![Diagrama de clases](imagenes/ModeladoDeClases2.png)
 
-El modelo de dominio representa la gestion de gastos de un usuario en sus diferentes tipos de cuentas.
 
-En la parte superior de la imagen se encuentra **GestionGastos**, que sera el controlador/coordinador de la aplicacion. Esta nos permitiria hacer operaciones sobre la cuenta del usuario (usuarioActual). Ofrecera operaciones como registrarGasto, crearCuentaCompartida, importarGastos y obtener la cuenta global. El gestor usara repositorios para guardar y recuperar datos.
+En nuestro programa se utilizará el controlador **GestionGastos** para gestionar de forma correcta la aplicación y sus datos. Este contendrá al usuario actual y ofrecerá las funciones principales del programa, como registrar, modificar y eliminar movimientos, así como crear cuentas compartidas. También utilizará un importador, capaz de importar gastos desde un archivo. Para la correcta organización y gestión de la información se utilizarán repositorios tanto para los usuarios como para las categorías.
 
-La entidad principal es **Usuario**, que se identifica por *nombre* y *nick*. Un usuario **tiene** (composición) múltiples **Cuenta**, lo que refleja que las cuentas pertenecen al usuario y no tienen sentido sin él. El usuario permite consultar sus gastos totales y saldo total agregando la información de sus cuentas.
+La clase **Usuario** contendrá la información del usuario. Tendrá su nombre, la información de su cuenta personal y una lista de cuentas a las que pertenece, pudiendo ser estas tanto personales como compartidas. Esta clase permitirá obtener los gastos y el saldo de las cuentas.
+
+**Cuenta** es la clase abstracta usada en este programa para representar los datos de la cuenta del usuario, como el nombre, la fecha de creación, los movimientos y el saldo. Contendrá funciones para ingresar o retirar dinero y para consultar el saldo. Las clases **CuentaPersonal** y **CuentaCompartida** son clases heredadas de **Cuenta** y representan cuentas individuales y cuentas con varios participantes, respectivamente. Esta última estará compuesta por más de un **Participante**, los cuales, según el reparto de gastos, pagarán un porcentaje de cada pago.
+
+Todas las clases **Cuenta** contienen una colección de **Movimiento**. Estos representan un gasto o un ingreso y poseen los atributos concepto, cantidad, fecha y categoría. Las **Categoría** sirven para clasificar los movimientos y facilitar su análisis. En las cuentas compartidas, se pueden tener movimientos de tipo **GastoCompartido**, que además de los datos anteriores indican qué **Participante** ha realizado el pago. Esto es lo que permite realizar los cálculos de cuánto se debe a cada participante o cuánto debe cada participante dentro de la cuenta.
 
 # 3.  Un diagrama de interacción para la una de las historias de usuario (a elección del grupo)
+
 
 # 4.  Breve explicación de la arquitectura de la aplicación y decisiones de diseño que se consideren de interés para la comprensión del trabajo.
 
