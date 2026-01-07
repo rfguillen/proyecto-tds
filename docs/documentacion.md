@@ -1,4 +1,5 @@
 # <ins> **DOCUMENTACION**</ins>
+Esta documentación describe el diseño y funcionamiento de la aplicación de gestión de gastos, incluyendo el modelo de dominio, las historias de usuario, estructura del programa y un manual de usuario.
 
 
 ## Diagrama de clases del dominio.
