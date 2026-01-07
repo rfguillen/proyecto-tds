@@ -16,6 +16,8 @@ Todas las clases **Cuenta** contienen una colección de **Movimiento**. Estos re
 
 # 3.  Un diagrama de interacción para la una de las historias de usuario (a elección del grupo)
 
+## Diagrama de interacción para Registrar Gasto.
+![Diagrama de clases](imagenes/DiagramaDeInteraccion.png)
 
 # 4.  Breve explicación de la arquitectura de la aplicación y decisiones de diseño que se consideren de interés para la comprensión del trabajo.
 
