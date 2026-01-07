@@ -17,6 +17,8 @@ Todas las clases **Cuenta** contienen una colección de **Movimiento**. Estos re
 ## Diagrama de interacción para Registrar Gasto.
 ![Diagrama de clases](imagenes/DiagramaDeInteraccion.png)
 
+Este diagrama de interacción representa el proceso de registro de un gasto. El usuario introduce los datos desde la vista de registro, que valida la información y delega la operación en **GestionGastos**. El sistema confirma la categoría del gasto, creándola si no existe, y registra el movimiento en la cuenta correspondiente. En el caso de una cuenta compartida, se recalculan los saldos de los participantes. Finalmente, se guarda el estado actualizado del usuario y, si se supera algún límite configurado, se muestra una notificación al usuario antes de confirmar el registro del gasto.
+
 # 4.  Breve explicación de la arquitectura de la aplicación y decisiones de diseño que se consideren de interés para la comprensión del trabajo.
 
 # 5.  Explicación de los patrones de diseño usados.
