@@ -1,7 +1,7 @@
 
 ## Diagrama de clases del dominio.
 
-![Diagrama de clases](imagenes/ModeladoDeClases.png)
+![Diagrama de clases](imagenes/ModeladoDeClases2.png)
 
 El modelo de dominio representa la gestion de gastos de un usuario en sus diferentes tipos de cuentas.
 
