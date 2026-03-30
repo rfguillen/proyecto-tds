@@ -23,16 +23,6 @@ public class Usuario {
 	}
 	
 	/**
-	 * Calcula el saldo sumando lo que el usuario tiene en CADA una de sus cuentas.
-	 * Gracias al polimorfismo, no importa si la cuenta es personal o compartida.
-	 */
-	public double getSaldoTotal() {
-		return cuentas.stream()
-				.mapToDouble(c -> c.getSaldoParaUsuario(this.nombre))
-				.sum();
-	}
-	
-	/**
 	 * Obtiene todos los movimientos de todas las cuentas en las que participa.
 	 */
 	public List<Movimiento> getGastosTotales() {

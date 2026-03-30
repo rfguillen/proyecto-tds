@@ -6,13 +6,11 @@ public class Participante {
     
     private final String nombre;
     private double porcentajeParticipacion;
-    private double saldo;
     
     public Participante(String nombre, double porcentajeParticipacion) {
         this.nombre = Objects.requireNonNull(nombre, "El nombre no puede ser nulo").trim();
         if (this.nombre.isEmpty()) throw new IllegalArgumentException("El nombre no puede estar vacío");
         setPorcentajeParticipacion(porcentajeParticipacion);
-        this.saldo = 0.0;
     }
     
     public String getNombre() { 
@@ -21,14 +19,6 @@ public class Participante {
     
     public double getPorcentajeParticipacion() { 
     	return porcentajeParticipacion; 
-    }
-    
-    public double getSaldo() { 
-    	return saldo; 
-    }
-    
-    protected void setSaldo(double saldo) { 
-    	this.saldo = saldo; 
     }
 
     public void setPorcentajeParticipacion(double porcentajeParticipacion) {

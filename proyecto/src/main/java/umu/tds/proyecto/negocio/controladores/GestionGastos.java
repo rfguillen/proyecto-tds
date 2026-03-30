@@ -85,10 +85,6 @@ public class GestionGastos {
         // Registramos el movimiento (esto actualiza el saldo incrementalmente)
         cuenta.registrarMovimientoGasto(gasto);
         
-        if (cuenta instanceof CuentaCompartida cc) {
-            cc.calcularSaldos();
-        }
-        
         repositorioUsuarios.añadir(usuarioActual);
         comprobarAlertas(cuenta, gasto);
     }
@@ -109,14 +105,6 @@ public class GestionGastos {
             gViejo.setPagador(gNuevo.getPagador());
         }
 
-        // 2. FORZAR RECÁLCULO TOTAL DEL SALDO
-        // Como hemos cambiado un movimiento que ya estaba en la lista, el saldo ha quedado desfasado.
-        // Recorremos toda la lista para sumar de nuevo y obtener el saldo real.
-        cuenta.recalcularSaldo();
-
-        if (cuenta instanceof CuentaCompartida cc) {
-            cc.calcularSaldos();
-        }
         repositorioUsuarios.añadir(usuarioActual);
     }
     
@@ -124,12 +112,9 @@ public class GestionGastos {
     public void eliminarGasto(Cuenta cuenta, Movimiento gasto) {
         if (cuenta == null || gasto == null) throw new IllegalArgumentException("Datos no válidos");
         
-        // El método de Cuenta ya elimina y llama a recalcularSaldo()
+        // El método de Cuenta ya elimina
         cuenta.eliminarMovimiento(gasto);
         
-        if (cuenta instanceof CuentaCompartida cc) {
-            cc.calcularSaldos();
-        }
         repositorioUsuarios.añadir(usuarioActual);
     }
     
@@ -179,8 +164,6 @@ public class GestionGastos {
         return repositorioCategorias.getTodas();
     }
     
-    
-    
     private final List<Alerta> alertas = new ArrayList<>();
     private final List<Notificacion> notificaciones = new ArrayList<>();
 
@@ -200,11 +183,7 @@ public class GestionGastos {
         n.marcarLeida();
     }
     
-    
     private void comprobarAlertas(Cuenta cuenta, Movimiento gasto) {
-        // Solo comprobamos si es un gasto
-        if (gasto.getCategoria().getNombre().equalsIgnoreCase("Ingreso")) return;
-
         for (Alerta alerta : alertas) {
             // Lógica simplificada: ¿El gasto actual supera el umbral de la alerta?
             // (O puedes usar la lógica de suma semanal/mensual que te pasé antes)
