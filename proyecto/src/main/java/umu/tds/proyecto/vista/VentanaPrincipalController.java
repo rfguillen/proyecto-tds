@@ -1,31 +1,18 @@
 package umu.tds.proyecto.vista;
 
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import umu.tds.proyecto.Configuracion;
+import umu.tds.proyecto.negocio.modelo.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
-import umu.tds.proyecto.Configuracion;
-import umu.tds.proyecto.negocio.modelo.Categoria;
-import umu.tds.proyecto.negocio.modelo.Cuenta;
-import umu.tds.proyecto.negocio.modelo.CuentaCompartida;
-import umu.tds.proyecto.negocio.modelo.Movimiento;
-import umu.tds.proyecto.negocio.modelo.Notificacion;
-import umu.tds.proyecto.negocio.modelo.Participante;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 public class VentanaPrincipalController {
 
@@ -68,16 +55,23 @@ public class VentanaPrincipalController {
         columnaConcepto.setCellValueFactory(new PropertyValueFactory<>("concepto"));
         columnaCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
         columnaImporte.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-        
+
+        columnaCategoria.setCellFactory(col -> new javafx.scene.control.TableCell<>() {
+            @Override
+            protected void updateItem(Categoria item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty || item == null ? null : item.getNombre());
+            }
+        });
+
         cargarCuentas();
-        
+
         selectorCuenta.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 aplicarFiltrosYActualizar();
                 actualizarSaldo(newVal);
             }
         });
-        
     }
     
     public static void setFiltros(LocalDate inicio, LocalDate fin, Categoria cat, Double min, Double max) {
@@ -180,6 +174,12 @@ public class VentanaPrincipalController {
         
         tablaMovimientos.setItems(FXCollections.observableArrayList(movimientos));
         tablaMovimientos.refresh();
+        tablaMovimientos.setItems(FXCollections.observableArrayList(movimientos));
+        tablaMovimientos.refresh();
+        // Preservar orden seleccionado por el usuario
+        if (!tablaMovimientos.getSortOrder().isEmpty()) {
+            tablaMovimientos.sort();
+        }
     }
     
     private void cargarCuentas() {
