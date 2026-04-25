@@ -99,14 +99,21 @@ public class VentanaPrincipalController {
     
     @FXML
     void actionAnadirGasto(ActionEvent event) {
-        // Asumiendo que llamas a otra ventana aquí:
-        // Configuracion.getInstancia().getSceneManager().showVistaGastoNuevo(selectorCuenta.getValue());
-        
-        // 6. Actualizar saldos tras la operación
+        Cuenta cuenta = selectorCuenta.getValue();
+
+        if (cuenta == null) {
+            System.out.println("Selecciona una cuenta primero.");
+            return;
+        }
+
+        Configuracion.getInstancia().getSceneManager().showVistaGasto(cuenta);
+
         aplicarFiltrosYActualizar();
         actualizarSaldosCuentaCompartida();
+        actualizarListaNotificaciones();
     }
 
+    
     	@FXML
     	    void actionBorrarGasto(ActionEvent event) {
     	        // Obtener movimiento seleccionado en la tabla
