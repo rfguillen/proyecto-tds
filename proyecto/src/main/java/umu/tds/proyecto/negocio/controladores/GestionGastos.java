@@ -199,24 +199,21 @@ public class GestionGastos {
     public void marcarNotificacionLeida(Notificacion n) {
         n.marcarLeida();
     }
-    
-    
+
+
     private void comprobarAlertas(Cuenta cuenta, Movimiento gasto) {
-        // Solo comprobamos si es un gasto
         if (gasto.getCategoria().getNombre().equalsIgnoreCase("Ingreso")) return;
 
+        List<Movimiento> movimientos = cuenta.getMovimientos().stream().toList();
+
         for (Alerta alerta : alertas) {
-            // Lógica simplificada: ¿El gasto actual supera el umbral de la alerta?
-            // (O puedes usar la lógica de suma semanal/mensual que te pasé antes)
-            if (alerta.getCategoria() == null || alerta.getCategoria().equals(gasto.getCategoria())) {
-                if (gasto.getCantidad() >= alerta.getUmbral()) {
-                    String msg = "¡Alerta! Gasto de " + gasto.getCantidad() + "€ supera el límite de " + alerta.getUmbral() + "€";
-                    Notificacion n = new Notificacion(msg);
-                    notificaciones.add(n);
-                    
-                    // Avisar a la vista si está abierta
-                    VentanaPrincipalController.mostrarNotificacion(msg);
-                }
+            if (alerta.estaSuperad(movimientos)) {
+                String cat = alerta.getCategoria() == null ? "general" : alerta.getCategoria().getNombre();
+                String msg = "¡Alerta! Límite " + alerta.getPeriodo().toString().toLowerCase()
+                        + " de " + alerta.getUmbral() + "€ superado en categoría: " + cat;
+                Notificacion n = new Notificacion(msg);
+                notificaciones.add(n);
+                VentanaPrincipalController.mostrarNotificacion(msg);
             }
         }
     }
