@@ -285,6 +285,17 @@ public class VentanaPrincipalController {
     void actionVerEstadisticas(ActionEvent event) { 
     	Configuracion.getInstancia().getSceneManager().showVistaEstadistica(); 
     }
+
+    public static void actualizarListaNotificaciones() {
+        if (instance == null || instance.listaNotificaciones == null) return;
+        Platform.runLater(() -> {
+            List<Notificacion> notifs = Configuracion.getInstancia()
+                    .getControladorGastos()
+                    .getNotificaciones();
+            instance.listaNotificaciones.setItems(
+                    FXCollections.observableArrayList(notifs));
+        });
+    }
     
     @FXML
     void actionIngresarDinero(ActionEvent event) {

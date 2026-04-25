@@ -9,83 +9,40 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="231.0" prefWidth="337.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="umu.tds.proyecto.vista.VistaAlertaController">
+<VBox alignment="TOP_CENTER" spacing="12.0" prefWidth="360.0" maxWidth="360.0"
+      xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="umu.tds.proyecto.vista.VistaAlertaController">
+   <padding>
+      <Insets top="24.0" right="24.0" bottom="24.0" left="24.0"/>
+   </padding>
    <children>
       <Label text="Nueva Alerta">
          <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <VBox.margin>
-            <Insets left="20.0" top="20.0" />
-         </VBox.margin>
-      </Label>
-      <VBox prefHeight="74.0" prefWidth="335.0">
-         <children>
-            <Label text="Seleccionar Categoría:">
-               <VBox.margin>
-                  <Insets left="20.0" top="15.0" />
-               </VBox.margin>
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </Label>
-            <ComboBox fx:id="selectorCategoria" prefHeight="25.0" prefWidth="300.0" promptText="Categoría">
-               <VBox.margin>
-                  <Insets left="18.0" top="5.0" />
-               </VBox.margin>
-            </ComboBox>
-         </children>
-      </VBox>
-      <VBox prefHeight="74.0" prefWidth="335.0">
-   <children>
-      <Label text="Periodo:">
-         <VBox.margin>
-            <Insets left="20.0" top="10.0" />
-         </VBox.margin>
-         <font>
-            <Font size="13.0" />
+            <Font name="System Bold" size="20.0"/>
          </font>
       </Label>
-      <ComboBox fx:id="selectorPeriodo" prefHeight="25.0" prefWidth="300.0" promptText="Semanal / Mensual">
+
+      <Label text="Seleccionar Categoría:" maxWidth="Infinity">
+         <font><Font size="13.0"/></font>
+      </Label>
+      <ComboBox fx:id="selectorCategoria" maxWidth="Infinity" promptText="Categoría"/>
+
+      <Label text="Periodo:" maxWidth="Infinity">
+         <font><Font size="13.0"/></font>
+      </Label>
+      <ComboBox fx:id="selectorPeriodo" maxWidth="Infinity" promptText="Semanal / Mensual"/>
+
+      <Label text="Cantidad Límite (€):" maxWidth="Infinity">
+         <font><Font size="13.0"/></font>
+      </Label>
+      <TextField fx:id="textoCantidad" maxWidth="Infinity"/>
+
+      <HBox alignment="CENTER_RIGHT" spacing="10.0">
          <VBox.margin>
-            <Insets left="18.0" top="5.0" />
+            <Insets top="8.0"/>
          </VBox.margin>
-      </ComboBox>
-   </children>
-</VBox>
-      <VBox prefHeight="73.0" prefWidth="335.0">
-         <children>
-            <Label text="Cantidad Límite (€):">
-               <VBox.margin>
-                  <Insets left="20.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </Label>
-            <TextField fx:id="textoCantidad" prefHeight="25.0" prefWidth="300.0">
-               <VBox.margin>
-                  <Insets left="18.0" right="20.0" top="5.0" />
-               </VBox.margin>
-            </TextField>
-         </children>
-      </VBox>
-      <HBox prefHeight="67.0" prefWidth="339.0">
-         <children>
-            <Button mnemonicParsing="false" onAction="#actionCancelar" text="Cancelar">
-               <HBox.margin>
-                  <Insets left="20.0" top="15.0" />
-               </HBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#actionGuardar" text="Crear Alerta">
-               <HBox.margin>
-                  <Insets left="155.0" top="15.0" />
-               </HBox.margin>
-            </Button>
-         </children>
+         <Button mnemonicParsing="false" onAction="#actionCancelar" text="Cancelar"/>
+         <Button mnemonicParsing="false" onAction="#actionGuardar" text="Crear Alerta"/>
       </HBox>
    </children>
 </VBox>
