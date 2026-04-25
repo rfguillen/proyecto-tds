@@ -1,18 +1,15 @@
 package umu.tds.proyecto.vista;
 
-import java.time.LocalDate;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import umu.tds.proyecto.negocio.modelo.Categoria;
-import umu.tds.proyecto.App;
 import umu.tds.proyecto.Configuracion;
-import umu.tds.proyecto.negocio.modelo.Cuenta;
-import umu.tds.proyecto.negocio.modelo.Movimiento;
+import umu.tds.proyecto.negocio.modelo.Categoria;
+
+import java.time.LocalDate;
 
 public class VistaFiltrarController {
 
@@ -61,6 +58,28 @@ public class VistaFiltrarController {
             Double max = null;
             if (!textoImporteMax.getText().isEmpty()) {
             	max = Double.parseDouble(textoImporteMax.getText());
+            }
+
+            // Validar que inicio no sea posterior a fin
+            if (inicio != null && fin != null && inicio.isAfter(fin)) {
+                javafx.scene.control.Alert alerta = new javafx.scene.control.Alert(
+                        javafx.scene.control.Alert.AlertType.WARNING);
+                alerta.setTitle("Fechas incorrectas");
+                alerta.setHeaderText(null);
+                alerta.setContentText("La fecha de inicio no puede ser posterior a la fecha de fin.");
+                alerta.showAndWait();
+                return;
+            }
+
+            // Validar que min no sea mayor que max
+            if (min != null && max != null && min > max) {
+                javafx.scene.control.Alert alerta = new javafx.scene.control.Alert(
+                        javafx.scene.control.Alert.AlertType.WARNING);
+                alerta.setTitle("Importes incorrectos");
+                alerta.setHeaderText(null);
+                alerta.setContentText("El importe mínimo no puede ser mayor que el máximo.");
+                alerta.showAndWait();
+                return;
             }
             VentanaPrincipalController.setFiltros(inicio, fin, cat, min, max);
             

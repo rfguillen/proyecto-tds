@@ -51,15 +51,54 @@ public class SceneManager {
 	public void showVistaImportador() {
 		abrirVentana("VistaImportador");
 	}
-	
-	public void showVistaEstadistica() {
-		abrirVentana("VistaEstadistica");
+
+	public void showVistaEstadistica(Cuenta cuenta) {
+		try {
+			FXMLLoader fxml = new FXMLLoader(App.class.getResource("/umu/tds/proyecto/VistaEstadistica.fxml"));
+			Parent root = fxml.load();
+
+			EstadisticasController controller = fxml.getController();
+			controller.setCuenta(cuenta);
+
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root));
+			stage.setTitle("Estadísticas");
+			stage.setResizable(false);
+			stage.sizeToScene();
+			stage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	public void showVistaAlerta() {
-		abrirVentana("VistaAlerta");
+		try {
+			Parent root = loadFXML("VistaAlerta");
+			Stage stage = new Stage();
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+			stage.setTitle("Nueva Alerta");
+			stage.setResizable(false);
+			stage.sizeToScene();
+			stage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
+	public void showVistaGestionAlertas() {
+		try {
+			Parent root = loadFXML("VistaGestionAlertas");
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root));
+			stage.setTitle("Gestión de Alertas");
+			stage.setResizable(false);
+			stage.sizeToScene();
+			stage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	public void showVistaFiltrar() {
 		abrirVentana("VistaFiltrar");
 	}

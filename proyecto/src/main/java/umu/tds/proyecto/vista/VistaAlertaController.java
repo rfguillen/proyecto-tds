@@ -53,22 +53,24 @@ public class VistaAlertaController {
 
 	@FXML
 	void actionGuardar(ActionEvent event) {
-	    try {
-	        Alerta.Periodo periodo = selectorPeriodo.getValue(); // Obtener el periodo seleccionado
-	        Categoria cat = selectorCategoria.getValue();
-	        double cantidad = Double.parseDouble(textoCantidad.getText());
+		try {
+			Alerta.Periodo periodo = selectorPeriodo.getValue();
+			Categoria cat = selectorCategoria.getValue();
+			double cantidad = Double.parseDouble(textoCantidad.getText());
 
-	        // ENVIAR AL MODELO con el periodo real
-	        Configuracion.getInstancia().getControladorGastos().crearAlerta(periodo, cantidad, cat);
+			if (alertaAEditar != null) {
+				Configuracion.getInstancia().getControladorGastos().eliminarAlerta(alertaAEditar);
+			}
 
-	        cerrarVentana();
-	    } catch (NumberFormatException e) {
-	        // Mostrar un aviso si la cantidad no es un número
-	        Alert alert = new Alert(Alert.AlertType.ERROR);
-	        alert.setContentText("Por favor, introduce una cantidad válida.");
-	        alert.show();
-	    }
+			Configuracion.getInstancia().getControladorGastos().crearAlerta(periodo, cantidad, cat);
+			cerrarVentana();
+		} catch (NumberFormatException e) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setContentText("Por favor, introduce una cantidad válida.");
+			alert.show();
+		}
 	}
+
 	@FXML
 	void actionCancelar(ActionEvent event) {
 	    cerrarVentana();
@@ -78,5 +80,15 @@ public class VistaAlertaController {
     	Stage stage = (Stage) textoCantidad.getScene().getWindow();
     	stage.close();
     }
+
+	private Alerta alertaAEditar = null;
+
+	public void setAlertaAEditar(Alerta alerta) {
+		this.alertaAEditar = alerta;
+		// Precargar valores
+		selectorPeriodo.setValue(alerta.getPeriodo());
+		selectorCategoria.setValue(alerta.getCategoria());
+		textoCantidad.setText(String.valueOf(alerta.getUmbral()));
+	}
 
 }
