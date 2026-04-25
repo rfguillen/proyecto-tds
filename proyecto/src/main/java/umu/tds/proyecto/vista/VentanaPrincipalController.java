@@ -281,9 +281,11 @@ public class VentanaPrincipalController {
     	limpiarFiltrosGlobales(); 
     }
     
-    @FXML 
-    void actionVerEstadisticas(ActionEvent event) { 
-    	Configuracion.getInstancia().getSceneManager().showVistaEstadistica(); 
+    @FXML
+    void actionVerEstadisticas(ActionEvent event) {
+        Cuenta cuenta = selectorCuenta.getValue();
+        if (cuenta == null) return;
+        Configuracion.getInstancia().getSceneManager().showVistaEstadistica(cuenta);
     }
 
     public static void actualizarListaNotificaciones() {
