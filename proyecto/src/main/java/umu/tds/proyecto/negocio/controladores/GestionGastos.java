@@ -23,7 +23,6 @@ import umu.tds.proyecto.negocio.modelo.Notificacion;
 import umu.tds.proyecto.negocio.modelo.GastoCompartido;
 import umu.tds.proyecto.negocio.modelo.Participante;
 import umu.tds.proyecto.negocio.modelo.Usuario;
-import umu.tds.proyecto.vista.VentanaPrincipalController;
 
 public class GestionGastos {
     
@@ -182,15 +181,12 @@ public class GestionGastos {
     public void marcarNotificacionLeida(Notificacion n) {
         n.marcarLeida();
     }
-<<<<<<< HEAD
 
     public void eliminarAlerta(Alerta alerta) {
         alertas.remove(alerta);
     }
 
     private void comprobarAlertas(Cuenta cuenta, Movimiento gasto) {
-        if (gasto.getCategoria().getNombre().equalsIgnoreCase("Ingreso")) return;
-
         List<Movimiento> movimientos = cuenta.getMovimientos().stream().toList();
 
         for (Alerta alerta : alertas) {
@@ -200,20 +196,6 @@ public class GestionGastos {
                         + " de " + alerta.getUmbral() + "€ superado en categoría: " + cat;
                 Notificacion n = new Notificacion(msg);
                 notificaciones.add(n);
-                VentanaPrincipalController.mostrarNotificacion(msg);
-            }
-        }
-    }
-
->>>>>>> main
-        for (Alerta alerta : alertas) {
-            if (alerta.estaSuperad(movimientos)) {
-                String cat = alerta.getCategoria() == null ? "general" : alerta.getCategoria().getNombre();
-                String msg = "¡Alerta! Límite " + alerta.getPeriodo().toString().toLowerCase()
-                        + " de " + alerta.getUmbral() + "€ superado en categoría: " + cat;
-                Notificacion n = new Notificacion(msg);
-                notificaciones.add(n);
-                VentanaPrincipalController.mostrarNotificacion(msg);
             }
         }
     }

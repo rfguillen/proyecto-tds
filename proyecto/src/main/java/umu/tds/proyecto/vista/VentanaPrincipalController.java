@@ -34,7 +34,7 @@ public class VentanaPrincipalController {
     private TableColumn<Movimiento, Double> columnaImporte;
     
     @FXML
-    private TextArea panelNotificaciones;
+    private ListView<String> listaSaldosParticipantes;
     
     @FXML
     private ComboBox<Cuenta> selectorCuenta;
@@ -66,8 +66,12 @@ public class VentanaPrincipalController {
         selectorCuenta.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 aplicarFiltrosYActualizar();
+                actualizarSaldosCuentaCompartida();
+                actualizarListaNotificaciones();
             }
         });
+        actualizarSaldosCuentaCompartida();
+        actualizarListaNotificaciones();
     }
     
     public static void setFiltros(LocalDate inicio, LocalDate fin, Categoria cat, Double min, Double max) {
@@ -92,6 +96,16 @@ public class VentanaPrincipalController {
             alert.show(); // .show() no bloquea la app, .showAndWait() sí.
         });
     }
+    
+    @FXML
+    void actionAnadirGasto(ActionEvent event) {
+        // Asumiendo que llamas a otra ventana aquí:
+        // Configuracion.getInstancia().getSceneManager().showVistaGastoNuevo(selectorCuenta.getValue());
+        
+        // 6. Actualizar saldos tras la operación
+        aplicarFiltrosYActualizar();
+        actualizarSaldosCuentaCompartida();
+    }
 
     	@FXML
     	    void actionBorrarGasto(ActionEvent event) {
@@ -107,6 +121,7 @@ public class VentanaPrincipalController {
     	        try {
     	            Configuracion.getInstancia().getControladorGastos().eliminarGasto(cuenta, seleccionado);
     	            aplicarFiltrosYActualizar();
+    	            actualizarSaldosCuentaCompartida();
     	            System.out.println("Gasto eliminado.");
     	            
     	        } catch (Exception e) {
@@ -128,6 +143,7 @@ public class VentanaPrincipalController {
     	        Configuracion.getInstancia().getSceneManager().showVistaGastoModificar(cuenta, seleccionado);
 
     	        aplicarFiltrosYActualizar();
+    	        actualizarSaldosCuentaCompartida();
     	    }
     
     public static void limpiarFiltrosGlobales() {
@@ -189,6 +205,7 @@ public class VentanaPrincipalController {
     void actionCrearGrupo(ActionEvent event) {
         Configuracion.getInstancia().getSceneManager().showVistaGrupo();
         cargarCuentas();
+        actualizarSaldosCuentaCompartida();
     }
 
     @FXML
@@ -209,6 +226,7 @@ public class VentanaPrincipalController {
         }
 
         aplicarFiltrosYActualizar();
+        actualizarSaldosCuentaCompartida();
     }
 
     @FXML 
@@ -269,6 +287,26 @@ public class VentanaPrincipalController {
             instance.listaNotificaciones.setItems(
                     FXCollections.observableArrayList(notifs));
         });
+    }
+    
+    private void actualizarSaldosCuentaCompartida() {
+        Cuenta cuenta = selectorCuenta.getValue();
+
+        if (!(cuenta instanceof CuentaCompartida cc)) {
+            listaSaldosParticipantes.setItems(FXCollections.observableArrayList());
+            return;
+        }
+
+        List<String> resumen = cc.getSaldosParticipantes().entrySet().stream()
+                .map(entry -> {
+                    String nombre = entry.getKey().getNombre();
+                    double saldo = entry.getValue();
+                    return String.format("%s: %+.2f €", nombre, saldo);
+                })
+                .toList();
+
+        listaSaldosParticipantes.setItems(FXCollections.observableArrayList(resumen));
+        listaSaldosParticipantes.refresh();
     }
 
     @FXML

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class CuentaCompartida extends Cuenta {
 	
@@ -75,14 +77,41 @@ public class CuentaCompartida extends Cuenta {
 		);
 		movimientos.add(gasto);
 	}
-	
 
 	@Override
 	public String toString() {
 		return super.toString()+"[participantes=" + participantes + "]";
 	}
 	
-	
+	public double getImportePagadoPor(Participante p) {
+	    return movimientos.stream()
+	            .filter(m -> m instanceof GastoCompartido)
+	            .map(m -> (GastoCompartido) m)
+	            .filter(g -> g.getPagador().equals(p))
+	            .mapToDouble(Movimiento::getCantidad)
+	            .sum();
+	}
+
+	public double getImporteAsumidoPor(Participante p) {
+	    double porcentaje = p.getPorcentajeParticipacion() / 100.0;
+
+	    return movimientos.stream()
+	            .filter(m -> m instanceof GastoCompartido)
+	            .mapToDouble(m -> m.getCantidad() * porcentaje)
+	            .sum();
+	}
+
+	public double getSaldoParticipante(Participante p) {
+	    return getImportePagadoPor(p) - getImporteAsumidoPor(p);
+	}
+
+	public Map<Participante, Double> getSaldosParticipantes() {
+	    Map<Participante, Double> saldos = new LinkedHashMap<>();
+	    for (Participante p : participantes) {
+	        saldos.put(p, getSaldoParticipante(p));
+	    }
+	    return saldos;
+	}
 	
 	}
 
