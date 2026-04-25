@@ -4,14 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="acebd0f6-a296-4093-b8d7-0571dc2136d5" name="Changes" comment="Arreglar ventana de alertas,filtros y orden">
+    <list default="true" id="acebd0f6-a296-4093-b8d7-0571dc2136d5" name="Changes" comment="Estadisticas">
+      <change afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/vista/VistaGestionAlertasController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/umu/tds/proyecto/VistaGestionAlertas.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/vista/EstadisticasController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/vista/EstadisticasController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/negocio/controladores/GestionGastos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/negocio/controladores/GestionGastos.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/vista/SceneManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/vista/SceneManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/vista/VentanaPrincipalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/vista/VentanaPrincipalController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/EstadisticasController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/EstadisticasController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/SceneManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/SceneManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/VentanaPrincipalController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/VentanaPrincipalController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/vista/VistaAlertaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/vista/VistaAlertaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/umu/tds/proyecto/VentanaPrincipal.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/umu/tds/proyecto/VentanaPrincipal.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +23,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
+        <option value="FxmlFile" />
         <option value="Class" />
       </list>
     </option>
@@ -59,6 +61,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Andres/Desktop/proyecto-tds/proyecto",
@@ -114,7 +117,15 @@
       <option name="project" value="LOCAL" />
       <updated>1777128195935</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Estadisticas">
+      <option name="closed" value="true" />
+      <created>1777129122422</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1777129122422</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -134,6 +145,7 @@
     <MESSAGE value="Flecha en la tabla" />
     <MESSAGE value="." />
     <MESSAGE value="Arreglar ventana de alertas,filtros y orden" />
-    <option name="LAST_COMMIT_MESSAGE" value="Arreglar ventana de alertas,filtros y orden" />
+    <MESSAGE value="Estadisticas" />
+    <option name="LAST_COMMIT_MESSAGE" value="Estadisticas" />
   </component>
 </project>

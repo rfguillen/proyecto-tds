@@ -298,6 +298,11 @@ public class VentanaPrincipalController {
                     FXCollections.observableArrayList(notifs));
         });
     }
+
+    @FXML
+    void actionGestionarAlertas(ActionEvent event) {
+        Configuracion.getInstancia().getSceneManager().showVistaGestionAlertas();
+    }
     
     @FXML
     void actionIngresarDinero(ActionEvent event) {

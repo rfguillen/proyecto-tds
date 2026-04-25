@@ -200,6 +200,9 @@ public class GestionGastos {
         n.marcarLeida();
     }
 
+    public void eliminarAlerta(Alerta alerta) {
+        alertas.remove(alerta);
+    }
 
     private void comprobarAlertas(Cuenta cuenta, Movimiento gasto) {
         if (gasto.getCategoria().getNombre().equalsIgnoreCase("Ingreso")) return;

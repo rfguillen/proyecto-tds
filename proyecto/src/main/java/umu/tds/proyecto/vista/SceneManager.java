@@ -85,6 +85,20 @@ public class SceneManager {
 			e.printStackTrace();
 		}
 	}
+
+	public void showVistaGestionAlertas() {
+		try {
+			Parent root = loadFXML("VistaGestionAlertas");
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root));
+			stage.setTitle("Gestión de Alertas");
+			stage.setResizable(false);
+			stage.sizeToScene();
+			stage.showAndWait();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	public void showVistaFiltrar() {
 		abrirVentana("VistaFiltrar");
 	}
