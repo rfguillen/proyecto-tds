@@ -45,50 +45,36 @@ public class VistaFiltrarController {
         try {
             LocalDate inicio = dateInicio.getValue();
             LocalDate fin = dateFin.getValue();
-            Categoria cat = selectorCategoria.getValue(); // Si es "Todas" será null o lo manejamos
-            System.out.println("=== FILTRO ===");
-            System.out.println("Cat seleccionada: " + cat);
-            System.out.println("Cat nombre: '" + (cat == null ? "null" : cat.getNombre()) + "'");
-            
+            Categoria cat = selectorCategoria.getValue();
+
             Double min = null;
-            if (!textoImporteMin.getText().isEmpty()) {
-            	min = Double.parseDouble(textoImporteMin.getText());
+            if (!textoImporteMin.getText().isBlank()) {
+                min = Double.parseDouble(textoImporteMin.getText());
             }
-            
+
             Double max = null;
-            if (!textoImporteMax.getText().isEmpty()) {
-            	max = Double.parseDouble(textoImporteMax.getText());
+            if (!textoImporteMax.getText().isBlank()) {
+                max = Double.parseDouble(textoImporteMax.getText());
             }
 
-            // Validar que inicio no sea posterior a fin
             if (inicio != null && fin != null && inicio.isAfter(fin)) {
-                javafx.scene.control.Alert alerta = new javafx.scene.control.Alert(
-                        javafx.scene.control.Alert.AlertType.WARNING);
-                alerta.setTitle("Fechas incorrectas");
-                alerta.setHeaderText(null);
-                alerta.setContentText("La fecha de inicio no puede ser posterior a la fecha de fin.");
-                alerta.showAndWait();
+                mostrarError("Fechas incorrectas",
+                        "La fecha de inicio no puede ser posterior a la fecha de fin.");
                 return;
             }
 
-            // Validar que min no sea mayor que max
             if (min != null && max != null && min > max) {
-                javafx.scene.control.Alert alerta = new javafx.scene.control.Alert(
-                        javafx.scene.control.Alert.AlertType.WARNING);
-                alerta.setTitle("Importes incorrectos");
-                alerta.setHeaderText(null);
-                alerta.setContentText("El importe mínimo no puede ser mayor que el máximo.");
-                alerta.showAndWait();
+                mostrarError("Importes incorrectos",
+                        "El importe mínimo no puede ser mayor que el máximo.");
                 return;
             }
+
             VentanaPrincipalController.setFiltros(inicio, fin, cat, min, max);
-            
             cerrarVentana();
-           
-            
-            
+
         } catch (NumberFormatException e) {
-            System.out.println("Error en formato de números");
+            mostrarError("Formato incorrecto",
+                    "Los importes deben ser números válidos.");
         }
     }
 
@@ -104,5 +90,14 @@ public class VistaFiltrarController {
     public void cerrarVentana() {
     	Stage stage = (Stage) textoImporteMin.getScene().getWindow();
     	stage.close();
+    }
+    
+    private void mostrarError(String titulo, String mensaje) {
+        javafx.scene.control.Alert alerta = new javafx.scene.control.Alert(
+                javafx.scene.control.Alert.AlertType.WARNING);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
 }

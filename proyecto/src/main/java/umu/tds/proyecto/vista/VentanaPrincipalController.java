@@ -91,18 +91,7 @@ public class VentanaPrincipalController {
             instance.aplicarFiltrosYActualizar();
         }
     }
-    
- // Añade este método en cualquier parte de VentanaPrincipalController
-    public static void mostrarNotificacion(String mensaje) {
-        // Platform.runLater asegura que el popup salga aunque la llamada venga de un hilo secundario
-        javafx.application.Platform.runLater(() -> {
-            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
-            alert.setTitle("Sistema de Alertas");
-            alert.setHeaderText("Límite de gasto superado");
-            alert.setContentText(mensaje);
-            alert.show(); // .show() no bloquea la app, .showAndWait() sí.
-        });
-    }
+
     
     @FXML
     void actionAnadirGasto(ActionEvent event) {
@@ -122,43 +111,45 @@ public class VentanaPrincipalController {
 
     
     	@FXML
-    	    void actionBorrarGasto(ActionEvent event) {
-    	        // Obtener movimiento seleccionado en la tabla
-    	        Movimiento seleccionado = tablaMovimientos.getSelectionModel().getSelectedItem();
-    	        Cuenta cuenta = selectorCuenta.getValue();
+    	void actionBorrarGasto(ActionEvent event) {
+    	    // Obtener movimiento seleccionado en la tabla
+    	    Movimiento seleccionado = tablaMovimientos.getSelectionModel().getSelectedItem();
+    	    Cuenta cuenta = selectorCuenta.getValue();
     	        
-    	        if (seleccionado == null || cuenta == null) {
-    	            System.out.println("Selecciona un movimiento y una cuenta primero");
-    	            return;
-    	        }
-    	        
-    	        try {
-    	            Configuracion.getInstancia().getControladorGastos().eliminarGasto(cuenta, seleccionado);
-    	            aplicarFiltrosYActualizar();
-    	            actualizarSaldosCuentaCompartida();
-    	            System.out.println("Gasto eliminado.");
-    	            
-    	        } catch (Exception e) {
-    	            e.printStackTrace();
-    	        }
+    	    if (seleccionado == null || cuenta == null) {
+    	        System.out.println("Selecciona un movimiento y una cuenta primero");
+    	        return;
     	    }
-
-    	@FXML
-    	    void actionModificarGasto(ActionEvent event) {
-    	        Movimiento seleccionado = tablaMovimientos.getSelectionModel().getSelectedItem();
-    	        Cuenta cuenta = selectorCuenta.getValue();
     	        
-    	        if (seleccionado == null || cuenta == null) {
-    	            System.out.println("Selecciona un movimiento para editar");
-    	            return;
-    	        }
-    	        
-    	        
-    	        Configuracion.getInstancia().getSceneManager().showVistaGastoModificar(cuenta, seleccionado);
-
+    	    try {
+    	        Configuracion.getInstancia().getControladorGastos().eliminarGasto(cuenta, seleccionado);
     	        aplicarFiltrosYActualizar();
     	        actualizarSaldosCuentaCompartida();
+    	        System.out.println("Gasto eliminado.");
+    	            
+    	    } catch (Exception e) {
+    	        e.printStackTrace();
     	    }
+    	    actualizarListaNotificaciones();
+    	}
+
+    	@FXML
+    	void actionModificarGasto(ActionEvent event) {
+    	    Movimiento seleccionado = tablaMovimientos.getSelectionModel().getSelectedItem();
+    	    Cuenta cuenta = selectorCuenta.getValue();
+    	        
+    	    if (seleccionado == null || cuenta == null) {
+    	        System.out.println("Selecciona un movimiento para editar");
+    	        return;
+    	    }
+    	        
+    	        
+    	    Configuracion.getInstancia().getSceneManager().showVistaGastoModificar(cuenta, seleccionado);
+
+    	    aplicarFiltrosYActualizar();
+    	    actualizarSaldosCuentaCompartida();
+    	    actualizarListaNotificaciones();
+    	}
     
     public static void limpiarFiltrosGlobales() {
         if (instance != null) {
@@ -206,6 +197,7 @@ public class VentanaPrincipalController {
         Configuracion.getInstancia().getSceneManager().showVistaGrupo();
         cargarCuentas();
         actualizarSaldosCuentaCompartida();
+        actualizarListaNotificaciones();
     }
 
     @FXML
@@ -253,6 +245,7 @@ public class VentanaPrincipalController {
             Platform.runLater(() -> {
                 System.out.println("Terminal cerrada. Actualizando datos en pantalla...");
                 aplicarFiltrosYActualizar();
+                actualizarListaNotificaciones();
             });
             
         }).start();
@@ -261,6 +254,7 @@ public class VentanaPrincipalController {
     @FXML 
     void actionAnadirAlerta(ActionEvent event) { 
     	Configuracion.getInstancia().getSceneManager().showVistaAlerta(); 
+    	actualizarListaNotificaciones();
     }
     
     @FXML
@@ -280,12 +274,16 @@ public class VentanaPrincipalController {
 
     public static void actualizarListaNotificaciones() {
         if (instance == null || instance.listaNotificaciones == null) return;
+
         Platform.runLater(() -> {
             List<Notificacion> notifs = Configuracion.getInstancia()
                     .getControladorGastos()
                     .getNotificaciones();
+
             instance.listaNotificaciones.setItems(
-                    FXCollections.observableArrayList(notifs));
+                    FXCollections.observableArrayList(notifs)
+            );
+            instance.listaNotificaciones.refresh();
         });
     }
     
@@ -312,6 +310,7 @@ public class VentanaPrincipalController {
     @FXML
     void actionGestionarAlertas(ActionEvent event) {
         Configuracion.getInstancia().getSceneManager().showVistaGestionAlertas();
+        actualizarListaNotificaciones();
     }
     
     @FXML
