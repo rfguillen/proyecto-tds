@@ -11,6 +11,7 @@ import umu.tds.proyecto.negocio.modelo.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +46,12 @@ public class VentanaPrincipalController {
     @FXML
     private ListView<Notificacion> listaNotificaciones;
 
+    private enum OrdenTabla {
+        FECHA_ASC, FECHA_DESC
+    }
+
+    private OrdenTabla ordenActual = OrdenTabla.FECHA_DESC;
+    
     @FXML
     public void initialize() {
         instance = this;
@@ -167,36 +174,22 @@ public class VentanaPrincipalController {
     private void aplicarFiltrosYActualizar() {
         Cuenta cuenta = selectorCuenta.getValue();
         if (cuenta == null) return;
-        
-        System.out.println("=== ANTES DE FILTRAR ===");
-        System.out.println("Total movimientos en cuenta: " + cuenta.getMovimientos().size());
-        System.out.println("Filtro categoria: '" + (filtroCategoria == null ? "null" : filtroCategoria.getNombre()) + "'");
-        
+
         List<Movimiento> movimientos = Configuracion.getInstancia()
-            .getControladorGastos()
-            .filtrarMovimientos(cuenta, fechaInicio, fechaFin, filtroCategoria, filtroMin, filtroMax);
-        
-        System.out.println("=== DESPUES DE FILTRAR ===");
-        System.out.println("Movimientos filtrados: " + movimientos.size());
-        
-        if (filtroCategoria != null && movimientos.isEmpty()) {
-            System.out.println("=== CATEGORIAS REALES EN MOVIMIENTOS ===");
-            cuenta.getMovimientos().stream()
-                .limit(20)
-                .forEach(m -> {
-                    Categoria mc = m.getCategoria();
-                    System.out.println("  '" + (mc == null ? "null" : mc.getNombre()) + "'");
-                });
+                .getControladorGastos()
+                .filtrarMovimientos(cuenta, fechaInicio, fechaFin, filtroCategoria, filtroMin, filtroMax);
+
+        Comparator<Movimiento> comparador = Comparator.comparing(Movimiento::getFecha);
+        if (ordenActual == OrdenTabla.FECHA_DESC) {
+            comparador = comparador.reversed();
         }
-        
+
+        movimientos = movimientos.stream()
+                .sorted(comparador)
+                .toList();
+
         tablaMovimientos.setItems(FXCollections.observableArrayList(movimientos));
         tablaMovimientos.refresh();
-        tablaMovimientos.setItems(FXCollections.observableArrayList(movimientos));
-        tablaMovimientos.refresh();
-        // Preservar orden seleccionado por el usuario
-        if (!tablaMovimientos.getSortOrder().isEmpty()) {
-            tablaMovimientos.sort();
-        }
     }
     
     private void cargarCuentas() {
@@ -319,6 +312,18 @@ public class VentanaPrincipalController {
     @FXML
     void actionGestionarAlertas(ActionEvent event) {
         Configuracion.getInstancia().getSceneManager().showVistaGestionAlertas();
+    }
+    
+    @FXML
+    void actionOrdenFechaAsc(ActionEvent event) {
+        ordenActual = OrdenTabla.FECHA_ASC;
+        aplicarFiltrosYActualizar();
+    }
+
+    @FXML
+    void actionOrdenFechaDesc(ActionEvent event) {
+        ordenActual = OrdenTabla.FECHA_DESC;
+        aplicarFiltrosYActualizar();
     }
     
 }

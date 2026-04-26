@@ -111,8 +111,8 @@
                   </Button>
                   <MenuButton mnemonicParsing="false" text="Ordenar Por:">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Fecha Ascendente" />
-                      <MenuItem mnemonicParsing="false" text="Fecha Descendente" />
+                      <MenuItem mnemonicParsing="false" onAction="#actionOrdenFechaAsc" text="Fecha Ascendente" />
+                      <MenuItem mnemonicParsing="false" onAction="#actionOrdenFechaDesc" text="Fecha Descendente" />
                     </items>
                      <HBox.margin>
                         <Insets left="70.0" top="35.0" />
