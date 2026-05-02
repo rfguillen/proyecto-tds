@@ -140,23 +140,106 @@ public class GestionGastos {
     }
     
     public void importarGastos(Path fichero) throws IOException {
-        List<CuentaGasto> lista = importador.importar(fichero); 
-        for (CuentaGasto cuenta : lista) {
-            Movimiento movimiento = cuenta.getGasto();    
-            movimiento.setCategoria(confirmarCategoria(movimiento.getCategoria().getNombre()));
-            String nombreCuenta = cuenta.getNombreCuenta();
-            Cuenta destino = null;
-            
-            if (nombreCuenta.equals(usuarioActual.getCuentaPrincipal().getNombre())) {
-                destino = getCuentaGlobal();
-            } else { 
-                for (Cuenta c : usuarioActual.getCuentas()) {
-                    if (c.getNombre().equals(nombreCuenta)) destino = c;
+        List<CuentaGasto> items = importador.importar(fichero);
+
+        Map<String, List<CuentaGasto>> porCuenta = items.stream()
+                .collect(Collectors.groupingBy(cg -> cg.getNombreCuenta().trim()));
+
+        crearCuentasCompartidasNecesarias(porCuenta);
+
+        for (CuentaGasto cg : items) {
+            String nombreCuenta = cg.getNombreCuenta().trim();
+            Movimiento movimiento = cg.getGasto();
+
+            Cuenta destino = obtenerCuentaDestino(nombreCuenta);
+
+            if (destino instanceof CuentaCompartida cuentaCompartida) {
+                if (!(movimiento instanceof GastoCompartido gastoCompartido)) {
+                    throw new IllegalArgumentException(
+                            "La cuenta " + nombreCuenta + " es compartida, pero el movimiento no tiene pagador"
+                    );
                 }
-                if (destino == null) throw new IllegalArgumentException("Cuenta destino no existe");
+
+                Participante pagadorReal = buscarParticipanteEnCuenta(
+                        cuentaCompartida,
+                        gastoCompartido.getPagador().getNombre()
+                );
+
+                gastoCompartido.setPagador(pagadorReal);
+                registrarGasto(gastoCompartido, cuentaCompartida);
+
+            } else {
+                registrarGasto(movimiento, destino);
             }
-            registrarGasto(movimiento, destino);
         }
+    }
+    
+    private void crearCuentasCompartidasNecesarias(Map<String, List<CuentaGasto>> porCuenta) {
+        for (Map.Entry<String, List<CuentaGasto>> entry : porCuenta.entrySet()) {
+            String nombreCuenta = entry.getKey();
+
+            if (esCuentaPersonal(nombreCuenta)) {
+                continue;
+            }
+
+            Cuenta existente = buscarCuentaPorNombre(nombreCuenta);
+            if (existente != null) {
+                continue;
+            }
+
+            List<Participante> participantes = entry.getValue().stream()
+                    .map(CuentaGasto::getGasto)
+                    .filter(g -> g instanceof GastoCompartido)
+                    .map(g -> (GastoCompartido) g)
+                    .map(g -> g.getPagador().getNombre())
+                    .distinct()
+                    .map(nombre -> new Participante(nombre, 0.0))
+                    .collect(Collectors.toList());
+
+            if (participantes.isEmpty()) {
+                throw new IllegalArgumentException(
+                        "No se puede crear la cuenta compartida " + nombreCuenta + " sin participantes"
+                );
+            }
+
+            crearCuentaCompartida(nombreCuenta, participantes);
+        }
+    }
+    
+    private Cuenta obtenerCuentaDestino(String nombreCuenta) {
+        if (esCuentaPersonal(nombreCuenta)) {
+            return getCuentaGlobal();
+        }
+
+        Cuenta cuenta = buscarCuentaPorNombre(nombreCuenta);
+
+        if (cuenta == null) {
+            throw new IllegalArgumentException("Cuenta destino no existe: " + nombreCuenta);
+        }
+
+        return cuenta;
+    }
+    
+    private boolean esCuentaPersonal(String nombreCuenta) {
+        return nombreCuenta.equalsIgnoreCase("Personal")
+                || nombreCuenta.equalsIgnoreCase(usuarioActual.getCuentaPrincipal().getNombre());
+    }
+    
+    private Cuenta buscarCuentaPorNombre(String nombreCuenta) {
+        return usuarioActual.getCuentas().stream()
+                .filter(c -> c.getNombre().equalsIgnoreCase(nombreCuenta))
+                .findFirst()
+                .orElse(null);
+    }
+    
+    private Participante buscarParticipanteEnCuenta(CuentaCompartida cuenta, String nombreParticipante) {
+        return cuenta.getParticipantes().stream()
+                .filter(p -> p.getNombre().equalsIgnoreCase(nombreParticipante))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "El participante " + nombreParticipante
+                                + " no pertenece a la cuenta " + cuenta.getNombre()
+                ));
     }
     
     public List<Categoria> getCategoriasDisponibles() {

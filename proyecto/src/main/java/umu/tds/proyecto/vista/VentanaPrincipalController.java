@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 public class VentanaPrincipalController {
 
@@ -219,6 +218,7 @@ public class VentanaPrincipalController {
 
         aplicarFiltrosYActualizar();
         actualizarSaldosCuentaCompartida();
+        actualizarListaNotificaciones();
     }
 
     @FXML 
@@ -245,6 +245,7 @@ public class VentanaPrincipalController {
             Platform.runLater(() -> {
                 System.out.println("Terminal cerrada. Actualizando datos en pantalla...");
                 aplicarFiltrosYActualizar();
+                actualizarSaldosCuentaCompartida();
                 actualizarListaNotificaciones();
             });
             

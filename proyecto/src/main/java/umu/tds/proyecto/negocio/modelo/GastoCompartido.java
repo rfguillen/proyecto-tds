@@ -26,7 +26,7 @@ public class GastoCompartido extends Movimiento {
 	}
 	
 	public void setPagador(Participante pagador) {
-		this.pagador = pagador;
+	    this.pagador = Objects.requireNonNull(pagador, "El pagador no puede ser nulo");
 	}
 	
 	@Override

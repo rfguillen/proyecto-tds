@@ -82,21 +82,33 @@ public class VistaGastoController {
     @FXML
     void actionGuardarGasto(ActionEvent event) {
         try {
-            String concepto = textoConcepto.getText();
-            if (concepto.isEmpty() || textoImporte.getText().isEmpty()) {
-                System.out.println("Error: Campos vacíos");
-                return;
-            }
+        	String concepto = textoConcepto.getText();
 
-            double importe = Double.parseDouble(textoImporte.getText());
-            Categoria cat = selectorCategoria.getValue();
+        	if (concepto == null || concepto.isBlank() || textoImporte.getText().isBlank()) {
+        	    System.out.println("Error: Campos vacíos");
+        	    return;
+        	}
 
-            if (cat == null) {
-                System.out.println("Error: Debes seleccionar una categoría");
-                return;
-            }
+        	double importe = Double.parseDouble(textoImporte.getText());
 
-            LocalDateTime fecha = LocalDateTime.of(dateFecha.getValue(), LocalTime.now());
+        	if (importe <= 0) {
+        	    System.out.println("Error: El importe debe ser positivo");
+        	    return;
+        	}
+
+        	Categoria cat = selectorCategoria.getValue();
+
+        	if (cat == null) {
+        	    System.out.println("Error: Debes seleccionar una categoría");
+        	    return;
+        	}
+
+        	if (dateFecha.getValue() == null) {
+        	    System.out.println("Error: Debes seleccionar una fecha");
+        	    return;
+        	}
+
+        	LocalDateTime fecha = LocalDateTime.of(dateFecha.getValue(), LocalTime.now());
 
             Cuenta destinoFinal = (cuentaDestino != null)
                     ? cuentaDestino

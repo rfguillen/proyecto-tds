@@ -57,25 +57,15 @@ public class CuentaCompartida extends Cuenta {
 	 * Registra un gasto compartido pagado por un participante.
 	 */
 	public void registrarGasto(String concepto, double cantidad, Participante pagador) {
-		// Validaciones
-		Objects.requireNonNull(concepto, "El concepto no puede ser nulo");
-		Objects.requireNonNull(pagador, "El pagador no puede ser nulo");
-		if (cantidad <= 0) {
-			throw new IllegalArgumentException("La cantidad debe ser positiva");
-		}
-		if (!participantes.contains(pagador)) {
-			throw new IllegalArgumentException("El pagador no pertenece a esta cuenta");
-		}
-		
-		// Crear y registrar el gasto
-		GastoCompartido gasto = new GastoCompartido(
-			concepto, 
-			cantidad, 
-			LocalDateTime.now(), 
-			GASTO, 
-			pagador
-		);
-		movimientos.add(gasto);
+	    GastoCompartido gasto = new GastoCompartido(
+	            concepto,
+	            cantidad,
+	            LocalDateTime.now(),
+	            GASTO,
+	            pagador
+	    );
+
+	    registrarMovimientoGasto(gasto);
 	}
 
 	@Override
@@ -84,16 +74,19 @@ public class CuentaCompartida extends Cuenta {
 	}
 	
 	public double getImportePagadoPor(Participante p) {
+	    Participante participanteReal = buscarParticipante(p);
+
 	    return movimientos.stream()
 	            .filter(m -> m instanceof GastoCompartido)
 	            .map(m -> (GastoCompartido) m)
-	            .filter(g -> g.getPagador().equals(p))
+	            .filter(g -> g.getPagador().equals(participanteReal))
 	            .mapToDouble(Movimiento::getCantidad)
 	            .sum();
 	}
 
 	public double getImporteAsumidoPor(Participante p) {
-	    double porcentaje = p.getPorcentajeParticipacion() / 100.0;
+	    Participante participanteReal = buscarParticipante(p);
+	    double porcentaje = participanteReal.getPorcentajeParticipacion() / 100.0;
 
 	    return movimientos.stream()
 	            .filter(m -> m instanceof GastoCompartido)
@@ -111,6 +104,33 @@ public class CuentaCompartida extends Cuenta {
 	        saldos.put(p, getSaldoParticipante(p));
 	    }
 	    return saldos;
+	}
+	
+	@Override
+	public void registrarMovimientoGasto(Movimiento m) {
+	    Objects.requireNonNull(m, "El movimiento no puede ser nulo");
+
+	    if (!(m instanceof GastoCompartido gasto)) {
+	        throw new IllegalArgumentException(
+	            "Una cuenta compartida solo puede registrar gastos compartidos con pagador"
+	        );
+	    }
+
+	    Participante pagadorReal = buscarParticipante(gasto.getPagador());
+	    gasto.setPagador(pagadorReal);
+
+	    movimientos.add(gasto);
+	}
+	
+	private Participante buscarParticipante(Participante participante) {
+	    Objects.requireNonNull(participante, "El participante no puede ser nulo");
+
+	    return participantes.stream()
+	            .filter(p -> p.equals(participante))
+	            .findFirst()
+	            .orElseThrow(() -> new IllegalArgumentException(
+	                    "El participante no pertenece a esta cuenta compartida"
+	            ));
 	}
 	
 	}
