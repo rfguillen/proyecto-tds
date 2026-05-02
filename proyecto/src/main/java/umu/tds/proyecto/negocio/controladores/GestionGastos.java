@@ -36,7 +36,7 @@ public class GestionGastos {
         this.repositorioCategorias = new RepositorioCategorias();
         this.repositorioUsuarios = new RepositorioUsuarios();
         this.importador = new Importador();
-        this.usuarioActual = new Usuario("Prueba");
+        this.usuarioActual = new Usuario("Personal");
     }
 
     public static List<Movimiento> ordenarPorCategoria(Map<String, Movimiento> mapaGastos) {

@@ -16,7 +16,7 @@ public class Usuario {
 		this.cuentas = new ArrayList<>();
 		
 		// Al crear un usuario, inicializamos su cuenta principal
-		this.cuentaPrincipal = new CuentaPersonal("Gastos de " + nombre);
+		this.cuentaPrincipal = new CuentaPersonal("Cuenta " + nombre);
 		
 		// La añadimos a la lista global de cuentas
 		this.addCuenta(this.cuentaPrincipal);
