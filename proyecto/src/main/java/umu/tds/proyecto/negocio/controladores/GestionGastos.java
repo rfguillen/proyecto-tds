@@ -35,6 +35,7 @@ public class GestionGastos {
         this.repositorioCategorias = new RepositorioCategorias();
         this.repositorioUsuarios = new RepositorioUsuarios();
         this.importador = new Importador();
+        this.repositorioCategorias.añadirCategoriasPredefinidas();
         this.usuarioActual = new Usuario("Personal");
     }
 

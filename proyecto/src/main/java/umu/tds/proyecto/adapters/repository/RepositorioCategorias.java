@@ -9,7 +9,16 @@ import umu.tds.proyecto.negocio.modelo.*;
 public class RepositorioCategorias {
     
     private Map<String, Categoria> categorias;
-    
+    private static final List<String> CATEGORIAS_PREDEFINIDAS = List.of(
+            "Alimentacion",
+            "Transporte",
+            "Entretenimiento",
+            "Suministros",
+            "Vivienda",
+            "Ocio",
+            "Ingreso",
+            "Otros"
+    );
     public RepositorioCategorias() {
         this.categorias = new HashMap<>();
     }
@@ -43,5 +52,11 @@ public class RepositorioCategorias {
     
     public List<Categoria> getTodas() {
         return new ArrayList<>(categorias.values());
+    }
+
+    public void añadirCategoriasPredefinidas() {
+        for (String nombre : CATEGORIAS_PREDEFINIDAS) {
+            buscar(nombre);  // buscar ya crea la categoría si no existe
+        }
     }
 }
