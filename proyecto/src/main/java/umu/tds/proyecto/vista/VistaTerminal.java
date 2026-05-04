@@ -16,8 +16,7 @@ import umu.tds.proyecto.negocio.modelo.Movimiento;
 
 public class VistaTerminal {
 
-	private static final DateTimeFormatter FECHA_CORRECTA = DateTimeFormatter.ofPattern("M/d/yyyy H:mm");
-
+	private static final DateTimeFormatter FECHA_CORRECTA = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 	private final GestionGastos gestor;
 	private final Cuenta cuentaActual;
 	private final Scanner scanner;
@@ -167,7 +166,7 @@ public class VistaTerminal {
 					fecha = LocalDateTime.parse(fecha1, FECHA_CORRECTA);
 					break;
 				} catch (DateTimeParseException e) {
-					System.out.println("Error: Formato inválido. Use M/d/yyyy H:mm (ejemplo: 1/15/2026 14:30)");
+					System.out.println("Error: Formato inválido. Use dd/MM/yyyy HH:mm (ejemplo: 15/01/2026 14:30)");
 				}
 			}
 
@@ -339,7 +338,7 @@ public class VistaTerminal {
 					nuevaFecha = LocalDateTime.parse(fecha, FECHA_CORRECTA);
 					break;
 				} catch (DateTimeParseException e) {
-					System.out.println("Error: Formato de fecha inválido. Use M/d/yyyy H:mm");
+					System.out.println("Error: Formato de fecha inválido. Use dd/MM/yyyy HH:mm");
 				}
 			}
 		}
