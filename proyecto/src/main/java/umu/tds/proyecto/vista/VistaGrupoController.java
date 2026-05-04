@@ -52,6 +52,14 @@ public class VistaGrupoController {
     	String nombre = textoNombreParticipante.getText();
     	String porcentajePart = textoPorcentaje.getText();
     	
+    	//Para comprobar que no exista un participante con el mismo nombre
+    	boolean existe = listaParticipantes.stream()
+    			.anyMatch(p->p.getNombre().equalsIgnoreCase(nombre.trim()));
+    	if (existe) {
+    		System.out.println("Ya existe un participante con el nombre '" + nombre + "'");
+    		return;
+    	}
+    	
     	if (!nombre.isEmpty()) {
     		double porcentaje = 0.0;
     		try {

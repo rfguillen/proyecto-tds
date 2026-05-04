@@ -5,8 +5,10 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import umu.tds.proyecto.adapters.repository.RepositorioCategorias;
@@ -117,6 +119,16 @@ public class GestionGastos {
     public CuentaCompartida crearCuentaCompartida(String cuenta, List<Participante> participantes) {
         if (cuenta == null) throw new IllegalArgumentException("Nombre no valido");
         if (participantes == null) throw new IllegalArgumentException("Sin participantes");
+        
+        
+        Set<String> nombres1 = new HashSet<>();
+        for (Participante p : participantes) {
+        	String nombres2 = p.getNombre().toLowerCase();
+        	if (!nombres1.add(nombres2)) {
+        		throw new IllegalArgumentException("Participante duplicado: " + p.getNombre());
+        	}
+        }
+        
         
         List<Participante> listaParticipantes = new ArrayList<>(participantes);
         boolean comprobarReparto = participantes.stream().allMatch(p -> p.getPorcentajeParticipacion() == 0.0);
