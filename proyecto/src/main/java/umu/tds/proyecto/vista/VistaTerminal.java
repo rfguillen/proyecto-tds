@@ -22,10 +22,6 @@ public class VistaTerminal {
 	private final Cuenta cuentaActual;
 	private final Scanner scanner;
 
-	public VistaTerminal() {
-		this(GestionGastos.getInstancia(), GestionGastos.getInstancia().getCuentaGlobal());
-	}
-
 	public VistaTerminal(GestionGastos gestor, Cuenta cuentaActual) {
 		this.gestor = gestor;
 		this.cuentaActual = cuentaActual;

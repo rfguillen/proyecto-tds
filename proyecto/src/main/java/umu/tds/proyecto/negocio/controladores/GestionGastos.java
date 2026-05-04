@@ -25,8 +25,7 @@ import umu.tds.proyecto.negocio.modelo.Participante;
 import umu.tds.proyecto.negocio.modelo.Usuario;
 
 public class GestionGastos {
-    
-    private static GestionGastos unicaInstancia;
+
     private Usuario usuarioActual;
     private RepositorioCategorias repositorioCategorias;
     private RepositorioUsuarios repositorioUsuarios;
@@ -45,10 +44,7 @@ public class GestionGastos {
                 .collect(Collectors.toList());
     }
 
-    public static GestionGastos getInstancia() {
-        if (unicaInstancia == null) unicaInstancia = new GestionGastos(); 
-        return unicaInstancia;
-    }
+
     
     public CuentaPersonal getCuentaGlobal() {
         return usuarioActual.getCuentaPrincipal();
