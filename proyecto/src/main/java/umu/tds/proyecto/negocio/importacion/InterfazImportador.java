@@ -8,9 +8,11 @@ import java.util.List;
 public interface InterfazImportador {
 	
 	List<CuentaGasto> importar(Path fichero) throws IOException;
-	// importar 
-	//		- lee fichero csv y obtendra una lista de clases cuentaGasto
-	//		- cuentaGasto -> clase que asocia a una cuenta 
-	//						 (individual o compartida) sus gastos
-	
+	/**
+     * Importa los gastos contenidos en un fichero.
+     *
+     * @param fichero ruta del fichero externo
+     * @return lista de gastos importados junto con su cuenta destino
+     * @throws IOException si ocurre un error leyendo el fichero
+     */
 }
