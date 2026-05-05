@@ -14,7 +14,8 @@ import java.util.stream.Collectors;
 import umu.tds.proyecto.adapters.repository.RepositorioCategorias;
 import umu.tds.proyecto.adapters.repository.RepositorioUsuarios;
 import umu.tds.proyecto.negocio.importacion.CuentaGasto;
-import umu.tds.proyecto.negocio.importacion.Importador;
+import umu.tds.proyecto.negocio.importacion.FactoriaImportadores;
+import umu.tds.proyecto.negocio.importacion.InterfazImportador;
 import umu.tds.proyecto.negocio.modelo.Alerta;
 import umu.tds.proyecto.negocio.modelo.Categoria;
 import umu.tds.proyecto.negocio.modelo.Cuenta;
@@ -31,12 +32,12 @@ public class GestionGastos {
     private Usuario usuarioActual;
     private RepositorioCategorias repositorioCategorias;
     private RepositorioUsuarios repositorioUsuarios;
-    private Importador importador;
+    private FactoriaImportadores factoriaImportadores;
     
     public GestionGastos() {        
         this.repositorioCategorias = new RepositorioCategorias();
         this.repositorioUsuarios = new RepositorioUsuarios();
-        this.importador = new Importador();
+        this.factoriaImportadores = new FactoriaImportadores();
         this.repositorioCategorias.añadirCategoriasPredefinidas();
         this.usuarioActual = new Usuario("Personal");
     }
@@ -149,14 +150,28 @@ public class GestionGastos {
     }
     
     public void importarGastos(Path fichero) throws IOException {
-        List<CuentaGasto> items = importador.importar(fichero);
+        /*
+         * Se crea el importador adecuado según la extensión del fichero.
+         * GestionGastos no conoce si el fichero es CSV, TXT u otro formato futuro:
+         * eso lo decide la factoría.
+         */
+        InterfazImportador importador = factoriaImportadores.crearImportador(fichero);
+        List<CuentaGasto> gastosImportados = importador.importar(fichero);
 
-        Map<String, List<CuentaGasto>> porCuenta = items.stream()
+        /*
+         * Agrupamos los gastos importados por nombre de cuenta para crear antes
+         * las cuentas compartidas que aparezcan en el fichero y no existan todavía.
+         */
+        Map<String, List<CuentaGasto>> porCuenta = gastosImportados.stream()
                 .collect(Collectors.groupingBy(cg -> cg.getNombreCuenta().trim()));
 
         crearCuentasCompartidasNecesarias(porCuenta);
 
-        for (CuentaGasto cg : items) {
+        /*
+         * Una vez creadas las cuentas necesarias, registramos cada gasto importado
+         * en su cuenta correspondiente.
+         */
+        for (CuentaGasto cg : gastosImportados) {
             String nombreCuenta = cg.getNombreCuenta().trim();
             Movimiento movimiento = cg.getGasto();
 
@@ -169,6 +184,11 @@ public class GestionGastos {
                     );
                 }
 
+                /*
+                 * El importador crea un participante provisional con el nombre leído
+                 * del fichero. Aquí lo sustituimos por el Participante real de la
+                 * cuenta compartida.
+                 */
                 Participante pagadorReal = buscarParticipanteEnCuenta(
                         cuentaCompartida,
                         gastoCompartido.getPagador().getNombre()
@@ -178,6 +198,9 @@ public class GestionGastos {
                 registrarGasto(gastoCompartido, cuentaCompartida);
 
             } else {
+                /*
+                 * En cuentas personales se registra el movimiento directamente.
+                 */
                 registrarGasto(movimiento, destino);
             }
         }
