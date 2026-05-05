@@ -25,10 +25,11 @@ public class VistaImportadorController {
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.setTitle("Seleccionar archivo de datos");
     	
-    	fileChooser.getExtensionFilters().addAll(
-    	        new FileChooser.ExtensionFilter("Archivos CSV (*.csv)", "*.csv"),
-    	        new FileChooser.ExtensionFilter("Archivos TXT (*.txt)", "*.txt"),
-    	        new FileChooser.ExtensionFilter("Todos los archivos", "*.*")
+    	fileChooser.getExtensionFilters().add(
+    	        new FileChooser.ExtensionFilter(
+    	                "Archivos de datos (*.csv, *.txt)",
+    	                "*.csv", "*.txt"
+    	        )
     	);
     	
     	Stage stage = (Stage) textoFichero.getScene().getWindow();
