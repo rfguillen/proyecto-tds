@@ -3,9 +3,9 @@ package umu.tds.proyecto.adapters.repository.json;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import umu.tds.proyecto.adapters.repository.IRepositorioCategorias;
 import umu.tds.proyecto.adapters.repository.json.dto.*;
 import umu.tds.proyecto.negocio.modelo.*;
-import umu.tds.proyecto.adapters.repository.RepositorioCategorias;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class JsonRepositorioUsuarios {
     // ── GUARDAR ──────────────────────────────────────────────
 
     public void guardar(Usuario usuario, List<Alerta> alertas, List<Notificacion> notificaciones,
-                        RepositorioCategorias repoCategorias) {
+                        IRepositorioCategorias repoCategorias) {
         try {
             UsuarioDTO dto = toDTO(usuario, alertas, notificaciones);
             File fichero = new File(FICHERO);
@@ -35,7 +35,7 @@ public class JsonRepositorioUsuarios {
             System.out.println("Guardado OK");
         } catch (Exception e) {
             System.err.println("Error guardando datos: " + e.getMessage());
-            e.printStackTrace(); // <-- esto es lo importante, muestra el error completo
+            e.printStackTrace();
         }
     }
 
@@ -90,7 +90,6 @@ public class JsonRepositorioUsuarios {
             md.cantidad = m.getCantidad();
             md.fecha = m.getFecha();
             md.categoria = m.getCategoria().getNombre();
-
             if (m instanceof GastoCompartido gc) {
                 md.tipo = "compartido";
                 md.pagador = gc.getPagador().getNombre();
@@ -105,7 +104,7 @@ public class JsonRepositorioUsuarios {
 
     // ── CARGAR ──────────────────────────────────────────────
 
-    public Optional<DatosRecuperados> cargar(RepositorioCategorias repoCategorias) {
+    public Optional<DatosRecuperados> cargar(IRepositorioCategorias repoCategorias) {
         File fichero = new File(FICHERO);
         if (!fichero.exists()) return Optional.empty();
 
@@ -118,11 +117,9 @@ public class JsonRepositorioUsuarios {
         }
     }
 
-    private DatosRecuperados fromDTO(UsuarioDTO dto, RepositorioCategorias repoCategorias) {
+    private DatosRecuperados fromDTO(UsuarioDTO dto, IRepositorioCategorias repoCategorias) {
         Usuario usuario = new Usuario(dto.nombre);
 
-        // La cuenta principal ya existe (la crea el constructor de Usuario)
-        // Solo añadimos los movimientos a la que ya existe
         CuentaDTO principalDTO = dto.cuentas.stream()
                 .filter(c -> c.tipo.equals("personal"))
                 .findFirst().orElse(null);
@@ -134,7 +131,6 @@ public class JsonRepositorioUsuarios {
             }
         }
 
-        // Reconstruir cuentas compartidas
         for (CuentaDTO cd : dto.cuentas) {
             if (cd.tipo.equals("compartida")) {
                 Cuenta cuenta = cuentaFromDTO(cd, repoCategorias);
@@ -142,7 +138,6 @@ public class JsonRepositorioUsuarios {
             }
         }
 
-        // Reconstruir alertas
         List<Alerta> alertas = new ArrayList<>();
         if (dto.alertas != null) {
             for (AlertaDTO ad : dto.alertas) {
@@ -151,7 +146,6 @@ public class JsonRepositorioUsuarios {
             }
         }
 
-        // Reconstruir notificaciones
         List<Notificacion> notificaciones = new ArrayList<>();
         if (dto.notificaciones != null) {
             for (NotificacionDTO nd : dto.notificaciones) {
@@ -163,7 +157,7 @@ public class JsonRepositorioUsuarios {
         return new DatosRecuperados(usuario, alertas, notificaciones);
     }
 
-    private Cuenta cuentaFromDTO(CuentaDTO dto, RepositorioCategorias repoCategorias) {
+    private Cuenta cuentaFromDTO(CuentaDTO dto, IRepositorioCategorias repoCategorias) {
         if (dto.tipo.equals("compartida")) {
             List<Participante> participantes = new ArrayList<>();
             for (Map.Entry<String, Double> entry : dto.porcentajes.entrySet()) {
@@ -179,13 +173,11 @@ public class JsonRepositorioUsuarios {
             }
             return cc;
         } else {
-            CuentaPersonal cp = new CuentaPersonal(dto.nombre);
-            // movimientos de la personal se añaden después
-            return cp;
+            return new CuentaPersonal(dto.nombre);
         }
     }
 
-    private Movimiento movimientoFromDTO(MovimientoDTO dto, RepositorioCategorias repoCategorias,
+    private Movimiento movimientoFromDTO(MovimientoDTO dto, IRepositorioCategorias repoCategorias,
                                          Participante pagador) {
         Categoria cat = repoCategorias.buscar(dto.categoria);
         if ("compartido".equals(dto.tipo) && pagador != null) {

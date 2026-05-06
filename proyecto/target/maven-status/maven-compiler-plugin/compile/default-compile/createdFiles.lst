@@ -1,4 +1,5 @@
 umu\tds\proyecto\adapters\repository\json\JsonRepositorioUsuarios.class
+umu\tds\proyecto\adapters\repository\IRepositorioUsuarios.class
 umu\tds\proyecto\adapters\repository\json\dto\NotificacionDTO.class
 umu\tds\proyecto\adapters\repository\json\JsonRepositorioCategorias.class
 umu\tds\proyecto\negocio\importacion\ImportadorCsv.class
@@ -37,6 +38,7 @@ umu\tds\proyecto\vista\SceneManager.class
 umu\tds\proyecto\negocio\modelo\Alerta.class
 umu\tds\proyecto\negocio\modelo\Movimiento.class
 umu\tds\proyecto\adapters\repository\json\dto\UsuarioDTO.class
+umu\tds\proyecto\adapters\repository\IRepositorioCategorias.class
 umu\tds\proyecto\vista\VistaAlertaController$2.class
 umu\tds\proyecto\negocio\importacion\FactoriaImportadores.class
 umu\tds\proyecto\negocio\modelo\EstrategiaAlerta.class

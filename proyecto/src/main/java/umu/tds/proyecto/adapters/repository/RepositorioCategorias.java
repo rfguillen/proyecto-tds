@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import umu.tds.proyecto.negocio.modelo.*;
-import umu.tds.proyecto.adapters.repository.RepositorioCategorias;
 
-public class RepositorioCategorias {
+
+public class RepositorioCategorias implements IRepositorioCategorias {
     
     private Map<String, Categoria> categorias;
     private static final List<String> CATEGORIAS_PREDEFINIDAS = List.of(

@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import umu.tds.proyecto.adapters.repository.IRepositorioCategorias;
+import umu.tds.proyecto.adapters.repository.IRepositorioUsuarios;
 import umu.tds.proyecto.adapters.repository.json.JsonRepositorioUsuarios;
 import umu.tds.proyecto.adapters.repository.RepositorioCategorias;
 import umu.tds.proyecto.adapters.repository.RepositorioUsuarios;
@@ -31,9 +33,9 @@ import umu.tds.proyecto.negocio.modelo.Usuario;
 
 public class GestionGastos {
 
+    private IRepositorioCategorias repositorioCategorias;
+    private IRepositorioUsuarios repositorioUsuarios;
     private Usuario usuarioActual;
-    private RepositorioCategorias repositorioCategorias;
-    private RepositorioUsuarios repositorioUsuarios;
     private FactoriaImportadores factoriaImportadores;
 
     private final JsonRepositorioUsuarios jsonRepo = new JsonRepositorioUsuarios();

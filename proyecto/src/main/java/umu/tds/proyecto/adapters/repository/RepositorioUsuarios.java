@@ -5,7 +5,8 @@ import java.util.Map;
 
 import umu.tds.proyecto.negocio.modelo.Usuario;
 
-public class RepositorioUsuarios {
+public class RepositorioUsuarios implements IRepositorioUsuarios {
+
 	
 	
 	private Map<String, Usuario> usuarios;
