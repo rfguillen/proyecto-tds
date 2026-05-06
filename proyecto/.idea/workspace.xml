@@ -4,15 +4,47 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="acebd0f6-a296-4093-b8d7-0571dc2136d5" name="Changes" comment="Estadisticas">
-      <change afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/vista/VistaGestionAlertasController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/umu/tds/proyecto/VistaGestionAlertas.fxml" afterDir="false" />
+    <list default="true" id="d7f150aa-86ee-44b3-887b-05cec9656fe6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/adapters/repository/json/JsonRepositorioCategorias.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/adapters/repository/json/JsonRepositorioUsuarios.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/adapters/repository/json/dto/AlertaDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/adapters/repository/json/dto/CuentaDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/adapters/repository/json/dto/MovimientoDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/adapters/repository/json/dto/NotificacionDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/adapters/repository/json/dto/UsuarioDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/ConfiguracionImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/ConfiguracionImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/adapters/repository/RepositorioCategorias.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/adapters/repository/RepositorioCategorias.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/negocio/controladores/GestionGastos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/negocio/controladores/GestionGastos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/vista/SceneManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/vista/SceneManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/negocio/modelo/Notificacion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/negocio/modelo/Notificacion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/vista/VentanaPrincipalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/vista/VentanaPrincipalController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/vista/VistaAlertaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/umu/tds/proyecto/vista/VistaAlertaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/umu/tds/proyecto/VentanaPrincipal.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/umu/tds/proyecto/VentanaPrincipal.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/ConfiguracionImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/ConfiguracionImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/VentanaPrincipal.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/VentanaPrincipal.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/VistaGasto.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/VistaGasto.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/adapters/repository/RepositorioCategorias.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/adapters/repository/RepositorioCategorias.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/controladores/GestionGastos.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/controladores/GestionGastos.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/importacion/CuentaGasto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/importacion/CuentaGasto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/importacion/Importador.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/modelo/Cuenta.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/modelo/Cuenta.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/modelo/CuentaCompartida.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/modelo/CuentaCompartida.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/modelo/CuentaPersonal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/modelo/CuentaPersonal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/modelo/GastoCompartido.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/modelo/GastoCompartido.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/modelo/Notificacion.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/modelo/Notificacion.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/modelo/Participante.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/modelo/Participante.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/modelo/Usuario.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/negocio/modelo/Usuario.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/VentanaPrincipalController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/VentanaPrincipalController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/VistaFiltrarController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/VistaFiltrarController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/VistaGastoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/VistaGastoController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/VistaGrupoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/VistaGrupoController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/VistaImportadorController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/VistaImportadorController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/VistaTerminal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/umu/tds/proyecto/vista/VistaTerminal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,8 +54,6 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
-        <option value="FxmlFile" />
         <option value="Class" />
       </list>
     </option>
@@ -37,16 +67,22 @@
     &quot;assignee&quot;: &quot;AndresMartinezUmuVersion&quot;
   }
 }</component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="bb802b23-c50b-498a-a748-5c58dea37e37" />
+  </component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/rfguillen/proyecto-tds.git&quot;,
     &quot;accountId&quot;: &quot;bb802b23-c50b-498a-a748-5c58dea37e37&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 4
+  &quot;associatedIndex&quot;: 6
 }</component>
-  <component name="ProjectId" id="3CqVC8gcAWhRZrZEMQujkE5IqkO" />
+  <component name="ProjectId" id="3Cr9GSTEiO48W2f52L9oYk9qs6i" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
@@ -56,18 +92,12 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.App.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "ConvocatoriaMayo",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Andres/Desktop/proyecto-tds/proyecto",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
 }]]></component>
   <component name="SharedIndexes">
@@ -79,53 +109,12 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="acebd0f6-a296-4093-b8d7-0571dc2136d5" name="Changes" comment="" />
-      <created>1777112957159</created>
+      <changelist id="d7f150aa-86ee-44b3-887b-05cec9656fe6" name="Changes" comment="" />
+      <created>1777132725601</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1777112957159</updated>
+      <updated>1777132725601</updated>
     </task>
-    <task id="LOCAL-00001" summary="Primer cambio Alertas y filtros">
-      <option name="closed" value="true" />
-      <created>1777115559617</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1777115559617</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Flecha en la tabla">
-      <option name="closed" value="true" />
-      <created>1777116502588</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1777116502588</updated>
-    </task>
-    <task id="LOCAL-00003" summary=".">
-      <option name="closed" value="true" />
-      <created>1777126549033</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1777126549033</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Arreglar ventana de alertas,filtros y orden">
-      <option name="closed" value="true" />
-      <created>1777128195935</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1777128195935</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Estadisticas">
-      <option name="closed" value="true" />
-      <created>1777129122422</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1777129122422</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -139,13 +128,8 @@
       </map>
     </option>
   </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add files via upload" />
-    <MESSAGE value="Primer cambio Alertas y filtros" />
-    <MESSAGE value="Flecha en la tabla" />
-    <MESSAGE value="." />
-    <MESSAGE value="Arreglar ventana de alertas,filtros y orden" />
-    <MESSAGE value="Estadisticas" />
-    <option name="LAST_COMMIT_MESSAGE" value="Estadisticas" />
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import umu.tds.proyecto.adapters.repository.json.JsonRepositorioUsuarios;
 import umu.tds.proyecto.adapters.repository.RepositorioCategorias;
 import umu.tds.proyecto.adapters.repository.RepositorioUsuarios;
 import umu.tds.proyecto.negocio.importacion.CuentaGasto;
@@ -27,19 +28,43 @@ import umu.tds.proyecto.negocio.modelo.GastoCompartido;
 import umu.tds.proyecto.negocio.modelo.Participante;
 import umu.tds.proyecto.negocio.modelo.Usuario;
 
+
 public class GestionGastos {
 
     private Usuario usuarioActual;
     private RepositorioCategorias repositorioCategorias;
     private RepositorioUsuarios repositorioUsuarios;
     private FactoriaImportadores factoriaImportadores;
-    
-    public GestionGastos() {        
+
+    private final JsonRepositorioUsuarios jsonRepo = new JsonRepositorioUsuarios();
+
+    public GestionGastos() {
         this.repositorioCategorias = new RepositorioCategorias();
         this.repositorioUsuarios = new RepositorioUsuarios();
         this.factoriaImportadores = new FactoriaImportadores();
         this.repositorioCategorias.añadirCategoriasPredefinidas();
-        this.usuarioActual = new Usuario("Personal");
+
+        JsonRepositorioUsuarios.DatosRecuperados datos =
+                jsonRepo.cargar(repositorioCategorias).orElse(null);
+
+        if (datos != null) {
+            this.usuarioActual = datos.usuario;
+            this.alertas.addAll(datos.alertas);
+            this.notificaciones.addAll(datos.notificaciones);
+            System.out.println("=== DATOS CARGADOS ===");
+            System.out.println("Usuario: " + this.usuarioActual.getNombre());
+            System.out.println("Cuentas: " + this.usuarioActual.getCuentas().size());
+            this.usuarioActual.getCuentas().forEach(c ->
+                    System.out.println("  Cuenta: " + c.getNombre() + " -> movimientos: " + c.getMovimientos().size())
+            );
+        } else {
+            System.out.println("=== SIN DATOS PREVIOS, creando usuario nuevo ===");
+            this.usuarioActual = new Usuario("Personal");
+        }
+    }
+
+    public void guardar() {
+        jsonRepo.guardar(usuarioActual, alertas, notificaciones, repositorioCategorias);
     }
 
     public static List<Movimiento> ordenarPorCategoria(Map<String, Movimiento> mapaGastos) {
@@ -86,6 +111,7 @@ public class GestionGastos {
         
         repositorioUsuarios.añadir(usuarioActual);
         comprobarAlertas(cuenta, gasto);
+        guardar();
     }
     
     // MODIFICAR GASTO (Ahora usa recálculo total)
@@ -105,6 +131,7 @@ public class GestionGastos {
         }
 
         repositorioUsuarios.añadir(usuarioActual);
+        guardar();
     }
     
     // ELIMINAR GASTO
@@ -115,6 +142,7 @@ public class GestionGastos {
         cuenta.eliminarMovimiento(gasto);
         
         repositorioUsuarios.añadir(usuarioActual);
+        guardar();
     }
     
     public CuentaCompartida crearCuentaCompartida(String cuenta, List<Participante> participantes) {
@@ -145,7 +173,8 @@ public class GestionGastos {
         CuentaCompartida cuentaFinal = new CuentaCompartida(cuenta, listaParticipantes);
         usuarioActual.addCuenta(cuentaFinal);
         repositorioUsuarios.añadir(usuarioActual);
-        
+
+        guardar();
         return cuentaFinal;
     }
     
@@ -283,6 +312,7 @@ public class GestionGastos {
 
     public void crearAlerta(Alerta.Periodo periodo, double umbral, Categoria categoria) {
         alertas.add(new Alerta(periodo, umbral, categoria));
+        guardar();
     }
 
     public List<Alerta> getAlertas() {
@@ -299,6 +329,7 @@ public class GestionGastos {
 
     public void eliminarAlerta(Alerta alerta) {
         alertas.remove(alerta);
+        guardar();
     }
 
     private void comprobarAlertas(Cuenta cuenta, Movimiento gasto) {

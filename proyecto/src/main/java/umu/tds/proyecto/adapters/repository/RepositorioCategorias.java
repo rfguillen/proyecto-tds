@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import umu.tds.proyecto.negocio.modelo.*;
+import umu.tds.proyecto.adapters.repository.RepositorioCategorias;
 
 public class RepositorioCategorias {
     

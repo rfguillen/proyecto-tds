@@ -181,13 +181,15 @@ public class VentanaPrincipalController {
         tablaMovimientos.setItems(FXCollections.observableArrayList(movimientos));
         tablaMovimientos.refresh();
     }
-    
+
     private void cargarCuentas() {
         selectorCuenta.getItems().clear();
         List<Cuenta> cuentas = Configuracion.getInstancia().getControladorGastos().getCuentasUsuario();
         selectorCuenta.getItems().addAll(cuentas);
-        if(!cuentas.isEmpty()) {
+        if (!cuentas.isEmpty()) {
             selectorCuenta.getSelectionModel().selectFirst();
+            // Forzar actualización aunque el listener no se dispare
+            aplicarFiltrosYActualizar();
         }
     }
 

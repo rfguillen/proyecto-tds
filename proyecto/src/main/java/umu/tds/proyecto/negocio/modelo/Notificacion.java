@@ -13,6 +13,12 @@ public class Notificacion {
         this.fecha = LocalDateTime.now();
         this.leida = false;
     }
+
+    public Notificacion(String mensaje, LocalDateTime fecha, boolean leida) {
+        this.mensaje = mensaje;
+        this.fecha = fecha;
+        this.leida = leida;
+    }
     
     public String getMensaje() { return mensaje; }
     public LocalDateTime getFecha() { return fecha; }
