@@ -18,7 +18,8 @@ public class VentanaPrincipalController {
 
     private static VentanaPrincipalController instance;
     private LocalDate fechaInicio, fechaFin;
-    private Categoria filtroCategoria;
+    private List<Integer> filtroMeses = new java.util.ArrayList<>();
+    private List<Categoria> filtroCategorias = new java.util.ArrayList<>();
     private Double filtroMin, filtroMax;
     
     @FXML 
@@ -80,11 +81,30 @@ public class VentanaPrincipalController {
         actualizarListaNotificaciones();
     }
     
-    public static void setFiltros(LocalDate inicio, LocalDate fin, Categoria cat, Double min, Double max) {
+    public static void setFiltros(
+            LocalDate inicio,
+            LocalDate fin,
+            List<Integer> meses,
+            List<Categoria> categorias,
+            Double min,
+            Double max) {
+
         if (instance != null) {
             instance.fechaInicio = inicio;
             instance.fechaFin = fin;
-            instance.filtroCategoria = cat;
+
+            /*
+             * Copiamos las listas para que la ventana principal no dependa
+             * directamente de las colecciones internas de la ventana de filtros.
+             */
+            instance.filtroMeses = meses == null
+                    ? new java.util.ArrayList<>()
+                    : new java.util.ArrayList<>(meses);
+
+            instance.filtroCategorias = categorias == null
+                    ? new java.util.ArrayList<>()
+                    : new java.util.ArrayList<>(categorias);
+
             instance.filtroMin = min;
             instance.filtroMax = max;
             instance.aplicarFiltrosYActualizar();
@@ -150,16 +170,17 @@ public class VentanaPrincipalController {
     	    actualizarListaNotificaciones();
     	}
     
-    public static void limpiarFiltrosGlobales() {
-        if (instance != null) {
-            instance.fechaInicio = null;
-            instance.fechaFin = null;
-            instance.filtroCategoria = null;
-            instance.filtroMin = null;
-            instance.filtroMax = null;
-            instance.aplicarFiltrosYActualizar();
-        }
-    }
+    	public static void limpiarFiltrosGlobales() {
+    	    if (instance != null) {
+    	        instance.fechaInicio = null;
+    	        instance.fechaFin = null;
+    	        instance.filtroMeses.clear();
+    	        instance.filtroCategorias.clear();
+    	        instance.filtroMin = null;
+    	        instance.filtroMax = null;
+    	        instance.aplicarFiltrosYActualizar();
+    	    }
+    	}
     
     private void aplicarFiltrosYActualizar() {
         Cuenta cuenta = selectorCuenta.getValue();
@@ -167,7 +188,7 @@ public class VentanaPrincipalController {
 
         List<Movimiento> movimientos = Configuracion.getInstancia()
                 .getControladorGastos()
-                .filtrarMovimientos(cuenta, fechaInicio, fechaFin, filtroCategoria, filtroMin, filtroMax);
+                .filtrarMovimientos(cuenta, fechaInicio, fechaFin, filtroMeses, filtroCategorias, filtroMin, filtroMax);
 
         Comparator<Movimiento> comparador = Comparator.comparing(Movimiento::getFecha);
         if (ordenActual == OrdenTabla.FECHA_DESC) {

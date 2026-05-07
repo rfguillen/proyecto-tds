@@ -90,16 +90,46 @@ public class GestionGastos {
         return repositorioCategorias.buscar(categoria);
     }
 
-    public List<Movimiento> filtrarMovimientos(Cuenta cuenta, LocalDate inicio, LocalDate fin, Categoria categoria, Double min, Double max) {
+    public List<Movimiento> filtrarMovimientos(
+            Cuenta cuenta,
+            LocalDate inicio,
+            LocalDate fin,
+            List<Integer> meses,
+            List<Categoria> categorias,
+            Double min,
+            Double max) {
+
         if (cuenta == null) return new ArrayList<>();
-        
+
         return cuenta.getMovimientos().stream()
-            .filter(m -> inicio == null || !m.getFecha().toLocalDate().isBefore(inicio))
-            .filter(m -> fin == null || !m.getFecha().toLocalDate().isAfter(fin))
-            .filter(m -> categoria == null || m.getCategoria().equals(categoria))
-            .filter(m -> min == null || m.getCantidad() >= min)
-            .filter(m -> max == null || m.getCantidad() <= max)
-            .collect(Collectors.toList());
+                /*
+                 * Filtro por intervalo de fechas.
+                 * Si inicio o fin son null, ese límite no se aplica.
+                 */
+                .filter(m -> inicio == null || !m.getFecha().toLocalDate().isBefore(inicio))
+                .filter(m -> fin == null || !m.getFecha().toLocalDate().isAfter(fin))
+
+                /*
+                 * Filtro por lista de meses.
+                 * Si la lista está vacía o es null, se aceptan todos los meses.
+                 */
+                .filter(m -> meses == null || meses.isEmpty()
+                        || meses.contains(m.getFecha().getMonthValue()))
+
+                /*
+                 * Filtro por lista de categorías.
+                 * Si la lista está vacía o es null, se aceptan todas las categorías.
+                 */
+                .filter(m -> categorias == null || categorias.isEmpty()
+                        || categorias.contains(m.getCategoria()))
+
+                /*
+                 * Filtros extra de importe mínimo y máximo.
+                 * No son obligatorios por el enunciado, pero ya los tenéis y no molestan.
+                 */
+                .filter(m -> min == null || m.getCantidad() >= min)
+                .filter(m -> max == null || m.getCantidad() <= max)
+                .collect(Collectors.toList());
     }
     
     // REGISTRAR GASTO

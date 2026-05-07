@@ -2,14 +2,16 @@ package umu.tds.proyecto.vista;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import umu.tds.proyecto.Configuracion;
 import umu.tds.proyecto.negocio.modelo.Categoria;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class VistaFiltrarController {
 
@@ -20,7 +22,10 @@ public class VistaFiltrarController {
     private DatePicker dateInicio;
 
     @FXML
-    private ComboBox<Categoria> selectorCategoria;
+    private ListView<String> listaMeses;
+
+    @FXML
+    private ListView<Categoria> listaCategorias;
 
     @FXML
     private TextField textoImporteMax;
@@ -30,22 +35,58 @@ public class VistaFiltrarController {
 
     @FXML
     public void initialize() {
-    	selectorCategoria.getItems().clear();
-        selectorCategoria.getItems().add(null); // "Todas" (null)
-        
+        /*
+         * Permitimos selección múltiple para poder filtrar
+         * por una lista de meses y por una lista de categorías
+         */
+        listaMeses.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        listaCategorias.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        listaMeses.getItems().setAll(
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+        );
+
         var categorias = Configuracion.getInstancia()
-            .getControladorGastos()
-            .getCategoriasDisponibles();
-        
-        selectorCategoria.getItems().addAll(categorias);
+                .getControladorGastos()
+                .getCategoriasDisponibles();
+
+        listaCategorias.getItems().setAll(categorias);
     }
-    
+
     @FXML
     void actionAplicar(ActionEvent event) {
         try {
             LocalDate inicio = dateInicio.getValue();
             LocalDate fin = dateFin.getValue();
-            Categoria cat = selectorCategoria.getValue();
+
+            /*
+             * Convertimos los índices seleccionados en números de mes.
+             * Enero está en índice 0, por eso se suma 1
+             */
+            List<Integer> meses = listaMeses.getSelectionModel()
+                    .getSelectedIndices()
+                    .stream()
+                    .map(indice -> indice + 1)
+                    .toList();
+
+            /*
+             * Categorías seleccionadas por el usuario: si no selecciona ninguna,
+             * el controlador interpretará que no se aplica filtro de categoría
+             */
+            List<Categoria> categorias = List.copyOf(
+                    listaCategorias.getSelectionModel().getSelectedItems()
+            );
 
             Double min = null;
             if (!textoImporteMin.getText().isBlank()) {
@@ -69,7 +110,15 @@ public class VistaFiltrarController {
                 return;
             }
 
-            VentanaPrincipalController.setFiltros(inicio, fin, cat, min, max);
+            VentanaPrincipalController.setFiltros(
+                    inicio,
+                    fin,
+                    meses,
+                    categorias,
+                    min,
+                    max
+            );
+
             cerrarVentana();
 
         } catch (NumberFormatException e) {
@@ -80,18 +129,19 @@ public class VistaFiltrarController {
 
     @FXML
     void actionLimpiar(ActionEvent event) {
-    	dateInicio.setValue(null);
-    	dateFin.setValue(null);
-    	textoImporteMin.clear();
-    	textoImporteMax.clear();
-    	selectorCategoria.getSelectionModel().selectFirst();
+        dateInicio.setValue(null);
+        dateFin.setValue(null);
+        textoImporteMin.clear();
+        textoImporteMax.clear();
+        listaMeses.getSelectionModel().clearSelection();
+        listaCategorias.getSelectionModel().clearSelection();
     }
-    
+
     public void cerrarVentana() {
-    	Stage stage = (Stage) textoImporteMin.getScene().getWindow();
-    	stage.close();
+        Stage stage = (Stage) textoImporteMin.getScene().getWindow();
+        stage.close();
     }
-    
+
     private void mostrarError(String titulo, String mensaje) {
         javafx.scene.control.Alert alerta = new javafx.scene.control.Alert(
                 javafx.scene.control.Alert.AlertType.WARNING);
