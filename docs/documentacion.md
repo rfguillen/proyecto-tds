@@ -1,58 +1,119 @@
 # <ins> **DOCUMENTACION**</ins>
-Esta documentación describe el diseño y funcionamiento de la aplicación de gestión de gastos, incluyendo el modelo de dominio, las historias de usuario, estructura del programa y un manual de usuario.
+Esta documentación describe el diseño y funcionamiento de la aplicación de gestión de gastos, incluyendo el modelo de dominio, la arquitectura, las decisiones de diseño y los patrones utilizados.
 
 
-## Diagrama de clases del dominio.
+## 1. Diagrama de clases del dominio.
 
-![Modelado a de clases](imagenes/ModeladoDeClases2.png)
+![Modelado a de clases](imagenes/ModeladoDeClases.png)
 
+El modelo de dominio representa los conceptos principales de la aplicación: usuarios, cuentas, movimientos, categorías, participantes, alertas y notificaciones.
 
-En nuestro programa se utilizará el controlador **GestionGastos** para gestionar de forma correcta la aplicación y sus datos. Este contendrá al usuario actual y ofrecerá las funciones principales del programa, como registrar, modificar y eliminar movimientos, así como crear cuentas compartidas. También utilizará un importador, capaz de importar gastos desde un archivo. Para la correcta organización y gestión de la información se utilizarán repositorios tanto para los usuarios como para las categorías.
+La clase **Usuario** representa al usuario actual de la aplicación. Contiene su nombre, una cuenta personal creada por defecto y una lista de cuentas a las que pertenece, pudiendo ser estas tanto personales como compartidas.
 
-La clase **Usuario** contendrá la información del usuario. Tendrá su nombre, la información de su cuenta personal y una lista de cuentas a las que pertenece, pudiendo ser estas tanto personales como compartidas. Esta clase permitirá obtener los gastos y el saldo de las cuentas.
+La clase abstracta **Cuenta** repsenta una agrupación de movimientos de gastos. Contendrá el nombre de la cuenta y la colección de los movimientos registrados. Las subclases principales son: 
+- **CuentaPersonal**, usada para los gastos individuales del usuario
+- **CuentaCompartida**, usada para los gastos compartidos entre varios participantes
 
-**Cuenta** es la clase abstracta usada en este programa para representar los datos de la cuenta del usuario, como el nombre, la fecha de creación, los movimientos y el saldo. Contendrá funciones para ingresar o retirar dinero y para consultar el saldo. Las clases **CuentaPersonal** y **CuentaCompartida** son clases heredadas de **Cuenta** y representan cuentas individuales y cuentas con varios participantes, respectivamente. Esta última estará compuesta por más de un **Participante**, los cuales, según el reparto de gastos, pagarán un porcentaje de cada pago.
+La clase **Movimiento** representa un gasto registrado. Contiene concepto, cantidad, fecha y categoría. En cuentas compartidas se utiliza la subclase **GastoCompartido**, que añade el participante que ha pagado el gasto
 
-Todas las clases **Cuenta** contienen una colección de **Movimiento**. Estos representan un gasto o un ingreso y poseen los atributos concepto, cantidad, fecha y categoría. Las **Categoría** sirven para clasificar los movimientos y facilitar su análisis. En las cuentas compartidas, se pueden tener movimientos de tipo **GastoCompartido**, que además de los datos anteriores indican qué **Participante** ha realizado el pago. Esto es lo que permite realizar los cálculos de cuánto se debe a cada participante o cuánto debe cada participante dentro de la cuenta.
+La clase **Categoria** clasifica los movimientos para permitir filtrado, análisis y estadísticas. La aplicación incluye unas categorías predefinidas y también permite crear unas nuevas
 
-## Diagrama de interacción para Registrar Gasto.
+La clase **Participante** representa a una persona dentro de una cuenta comaprtida. Cada participante tiene un nombre y un porcentaje de cada participación. En cuentas equitativas, la aplicación reparte de forma automática el 100% entre los participantes.
+
+La clase **CuentaCompartida** calcula los saldos pendientes de cada participante comparando lo que ha pagado con lo que le corresponde asumir. Un saldo positivo significa que al participante le deben dinero, un saldo negativo significa que le debe dinero al grupo
+
+## 2. Diagrama de interacción para Registrar Gasto.
 ![Diagrama de interaccion](imagenes/DiagramaDeInteraccion.png)
+**CAMBIAR ESTA PARTE CUANDO TENGAMOS EL DIAGRAMA**
 
 Este diagrama de interacción representa el proceso de registro de un gasto. El usuario introduce los datos desde la vista de registro, que valida la información y delega la operación en **GestionGastos**. El sistema confirma la categoría del gasto, creándola si no existe, y registra el movimiento en la cuenta correspondiente. En el caso de una cuenta compartida, se recalculan los saldos de los participantes. Finalmente, se guarda el estado actualizado del usuario y, si se supera algún límite configurado, se muestra una notificación al usuario antes de confirmar el registro del gasto.
 
-## Arquitectura y decisiones de diseño
+## 3. Arquitectura y decisiones de diseño
 
-El programa tiene una arquitectura en capas con un modelo Modelo-Vista-Controlador. El codigo se dividira en una presentacion, lógica de negocio y base de datos.
+El programa tiene una arquitectura en capas con un modelo Modelo-Vista-Controlador.
 
-La capa de vista se ha implementado con JavaFX, con el objetivo de separar las interfaces de la lógica de la aplicación. Con JavaFX podremos asegurar una correcta interacción con el usuario y la recogida y validación básica de los datos introducidos, siendo la capa de control la encargada de ejecutar diferentes operaciones.
+- **Vista**: contiene los ficheros FXML y controladores JavaFX. Se encarga de mostrar ventanas, recoger datos del usuario y gestionar eventos de interfaz
+- **Controlador de aplicación**: la clase **GestionGastos** coordina los casos de uso principales: registro, modificación y eliminación de gastos, creación de cuentas compartidas, importación de datos, filtrado, alertas y persistencia
+- **Modelo de dominio**: contiene las clases que representan la lógica principal del negocio: cuentas, movimientos, categorías, participantes, alertas y notificaciones
+- **Persistencia**: se realiza en formato JSON mediante Jackson. Para evitar acoplar Jackson directamente al modelo de dominio se utilizan DTOs
 
-La clase **GestionGastos**, actuara como principal controlador del sistema. Esta clase coordina los casos de uso más importantes, como el registro, modificación y eliminación de gastos, la creación de cuentas compartidas, la importación de datos y la comprobación de alertas. Además, mantiene el usuario actual y evita que la interfaz acceda directamente a las clases del dominio.
+La vista no implementa la lógica de negocio principal. Cuando el usuario realiza una acción relevante, la vista delega en **GestionGastos**, que actúa como controlador/fachada de la aplicación
 
-El acceso y persistencia de la base de datos se realiza mediante repositorios, como **RepositorioUsuarios** y **RepositorioCategorias**, con ellos podremos gestionar correctamente los datos y facilitar posibles cambios futuros. La importación de gastos se gestiona a través de un componente **Importador**, desacoplado de la lógica principal.
+La navegación entre ventanas se centraliza en **SceneManager**, que carga FXML, crea escenas y abre ventanas auxiliares. Esto evita repartir la lógica de navegación por todos los controladores
 
-Algunas decisiones de diseño han sido por ejemplo, utilizar el patrón *Singleton* en **GestionGastos** para garantizar una única instancia de control. También el uso de herencia para diferenciar entre **CuentaPersonal** y **CuentaCompartida**, permitiendo reutilizar **Cuenta** y poder diferenciar cuando existen varios participantes. El sistema de alertas se integra en el flujo de registro de gastos, permitiendo detectar automáticamente cuando se superan límites definidos y generar notificaciones al usuario.
+La persistencia se implemente en **JsonRepositorioUsuarios**, que transforma el estado de la aplicación a DTOs y lo guarda en un fichero JSON mediante Jackson. El repositorio reconstruye el usuario, sus cuentas, movimientos, alertas y notificaciones al iniciarse la aplicación
 
+## 4. Funcionalidades principales
 
-## Patrones de Diseño.
+### Gestión de gastos
 
-### Singleton
-El **Singleton** se aplica en GestionGastos para asegurar que hay una única instancia y asegurar un punto de acceso global.
-> public static GestionGastos getInstancia() {
-        if (unicaInstancia == null) unicaInstancia = new GestionGastos(); 
-        return unicaInstancia;
-    }
+La aplicación permite registrar, modificar y eliminar gastos. Cada gasto tiene concepto, cantidad, fecha y categoría. En cuentas compartidas, se indica también el participante que ha pagado
 
-### Fachada
-SceneManager actúa como una fachada que simplifica la navegación del programa. Oculta la complejidad de cargar archivos FXML, crear escenas y la gestión de ventanas, abriéndolas y cerrándolas según las necesidades de la aplicación. De este modo, actúa como una **Fachada**.
+### Categorías
 
-### Repositorios
-Los repositorios (**RepositorioUsuarios** y **RepositorioCategorias**) se encargan de gestionar la base de datos, facilitando el cambio de implementación sin afectar al resto del sistema. En la versión actual, se han implementado utilizando **HashMap**.
+Las categorías permiten clasificar gastos y usarlas en filtros, alertas y estadísticas. Exiten categorías predefinidas y el usuario puede crear nuevas categorías desde la ventana de registro de gastos
 
-### Estrategia
-El sistema de importación utiliza la interfaz **InterfazImportador** para permitir múltiples estrategias de importación. Actualmente está implementado para archivos CSV mediante la clase **Importador**, lo que permite añadir nuevos formatos sin modificar el código existente.
+### Filtros
 
+La vista de filtros permite combinar:
+- Intervalo de fechas
+- Lista de meses
+- Lista de categorías
+- Importe mínimo y máximo
+Si no se seleccionan meses o categorías, ese filtro concreto no se aplica
 
-### Método Plantilla
-La clase abstracta **Cuenta** define el comportamiento común de todas las cuentas, dejando el método **getSaldoParaUsuario()** como abstracto para que cada tipo de cuenta lo implemente según su lógica específica.
+### Estadísticas
 
+La vista de estadísticas agrupa los gastos por categoría y los muestra gráficamente para facilitar el análisis visual de la distribución del gasto
 
+### Alertas y notificaciones
+
+El usuario puede configurar alertas semanales o mensuales. Las alertas pueden ser generales o estar asociadas a una categoría concreta. Cuando un nuevo gasto provoca que se supere el umbral configurado, la aplicación genera una notificación. Las notificaciones se quedan disponibles en el historial
+
+### Cuentas compartidas
+
+Las cuentas compartidas permiten registrar gastos pagados por participantes. La aplicación calcula automáticamente cuánto ha pagado cada participante, cuánto le correspondía asumir y el saldo resultante
+
+### Importación de datos
+
+La aplicación permite importar gastos desde ficheros externos. Se soportan:
+- CSV con formato "Date,Account,Category,Subcategory,Note,Payer,Amount,Currency"
+- TXT con formato "Date;Account;Category;Subcategory;Note;Payer;Amount;Currency"
+
+## 5. Patrones de Diseño usados
+
+### Singleton - `Configuración`
+
+El patrón **Singleton** se aplica en Configuracion. Esta clase mantiene una única instancia global de la configuración activa del sistema y proporciona acceso a los componentes principales, como `GestionGastos` y `SceneManager`
+
+La instancia se establece una sola vez al arrancar la aplicación, para evitar que existan varias configuraciones a la vez
+
+### Fachada - `SceneManager` y `GestionGastos`
+
+**SceneManager** actúa como una fachada de navegación. Oculta la complejidad de cargar archivos FXML, crear escenas y abrir ventanas
+
+**GestionGastos** actúa como controlador/fachada de aplicación. La vista delega en esta clase las operaciones principales, evitando acceder directamente a la lógica de negocio desde los controladores 
+
+### Repositorios - Persistencia JSON
+
+La persistencia se organiza mediante repositorios. Las categorías y usuarios se gestionan mediante interfaces de repositorio, y el estado principal de la aplicación se almacena en JSON mediante `JsonRepositorioUsuarios`
+
+Este repositorio encapsula el uso de Jackson y transforma el modelo de dominio a DTOs antes de escribirlo en disco. Así, se evita mezclar directamente la lógica de negocio con detalles de almacenamiento
+
+### Estrategia - Alertas
+
+El patrón **Estrategia** se aplica en el sistema de alertas. La interfaz `EstrategiaAlerta` define la operación para comprobar si se supera un umbral. Las clases `EstrategiaAlertaSemanal` y `EstrategiaAlertaMensual` implementan la comprobación para periodos semanales y mensuales
+
+La clase `Alerta` selecciona la estrategia adecuada según el periodo elegido
+
+### Adaptador - Importación de datos
+
+El patrón **Adaptador** se aplica en el subsistema de importación. `ImportadorCsv` e `ImportadorTxt` adaptan formatos externos de fichero al formato interno que espera la aplicación: una lista de objetos `CuentaGasto`
+
+Gracias a esta interfaz, el controlador principal no necesita conocer los detalles de cada formato
+
+### Métofo Factoría - `FactoriaImportadores`
+
+El patrón **Método Factoría** se aplica mediante `FactoriaImportadores`. Esta clase decide qué importador concreto crear segñun la extensión del fichero que se seleccione.
+
+Actualmente crea importadors para `.csv` y `.txt`. Para añadir un nuevo formato simplemente habría que crear otro adaptador que implemente `InterfazImprotador` y registrarlo en la factoría
