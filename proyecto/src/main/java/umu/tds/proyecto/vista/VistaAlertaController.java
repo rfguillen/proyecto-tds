@@ -10,6 +10,9 @@ import umu.tds.proyecto.Configuracion;
 import umu.tds.proyecto.negocio.modelo.Alerta;
 import umu.tds.proyecto.negocio.modelo.Categoria;
 
+/**
+ * Controlador para crear o modificar alertas de gasto
+ */
 public class VistaAlertaController {
 
 	@FXML

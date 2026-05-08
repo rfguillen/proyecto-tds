@@ -10,6 +10,12 @@ import umu.tds.proyecto.App;
 import umu.tds.proyecto.negocio.modelo.Cuenta;
 import umu.tds.proyecto.negocio.modelo.Movimiento;
 
+/**
+ * Fachada de navegación
+ * 
+ * Centraliza la carga de FXML y la apertura de ventanas para evitar que
+ * cada controlador de la vista conozca los detalles de creación de estas escenas
+ */
 public class SceneManager {
 	private Stage stagePrincipal;
 	

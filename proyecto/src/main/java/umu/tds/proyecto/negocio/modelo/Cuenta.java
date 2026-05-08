@@ -7,6 +7,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Abstracción común de una cuenta de gastos
+ * 
+ * Contiene el nombre de la cuenta y sus movimientos. Las subclases
+ * concretan si la cuenta es personal o compartida
+ */
 public abstract class Cuenta {
     
     private final String nombre; 

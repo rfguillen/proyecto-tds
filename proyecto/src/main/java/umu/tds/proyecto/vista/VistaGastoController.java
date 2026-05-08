@@ -20,6 +20,12 @@ import umu.tds.proyecto.negocio.modelo.CuentaCompartida;
 import umu.tds.proyecto.negocio.modelo.GastoCompartido;
 import umu.tds.proyecto.negocio.modelo.Participante;
 
+/**
+ * Controlador de creación y modificación de gastos
+ * 
+ * Recoge los datos introducidos por el usuario y delega el registro
+ * o la modificación en GestionGastos
+ */
 public class VistaGastoController {
 
     @FXML 

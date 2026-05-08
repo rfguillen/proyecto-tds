@@ -13,6 +13,12 @@ import umu.tds.proyecto.negocio.modelo.Categoria;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Controlador de la ventana de filtros
+ * 
+ * Permite seleccionar intervalos de fechas, meses, categorías e
+ * importwes y envía las selecciones a la ventana principal
+ */
 public class VistaFiltrarController {
 
     @FXML

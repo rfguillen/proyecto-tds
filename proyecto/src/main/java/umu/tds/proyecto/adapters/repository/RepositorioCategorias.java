@@ -6,6 +6,14 @@ import java.util.List;
 import java.util.Map;
 import umu.tds.proyecto.negocio.modelo.*;
 
+/**
+ * Repositorio de categorías en memoria
+ * 
+ * Patrón Repositorio:
+ * encapsula el acceso al listado de categorías y evita que el resto de la
+ * aplicación depende de la estructura interna de almacenamiento
+ */
+
 
 public class RepositorioCategorias implements IRepositorioCategorias {
     

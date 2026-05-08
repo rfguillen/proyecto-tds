@@ -2,6 +2,11 @@ package umu.tds.proyecto.negocio.modelo;
 
 import java.time.LocalDate;
 
+/**
+ * Objeto de filtro para movimientos
+ * 
+ * Encapsula criterios de filtrado independientes de la vista
+ */
 public class FiltroMovimientos {
 
     private LocalDate fechaInicio;

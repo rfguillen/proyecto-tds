@@ -2,6 +2,9 @@ package umu.tds.proyecto.adapters.repository.json.dto;
 
 import java.time.LocalDateTime;
 
+/**
+ * DTO de movimiento persistido en JSON
+ */
 public class MovimientoDTO {
     public String tipo; // "simple" o "compartido"
     public String concepto;

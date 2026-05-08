@@ -2,6 +2,11 @@ package umu.tds.proyecto.negocio.modelo;
 
 import java.util.Objects;
 
+/**
+ * Categoría usada para clasificar movimientos
+ * 
+ * Permite agrupar gastos para filtros, estadísticas, y alertas
+ */
 public class Categoria {
 
 	private String nombre;

@@ -10,6 +10,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import umu.tds.proyecto.Configuracion;
 
+/**
+ * Controlador de importación de datos
+ * 
+ * Permite seleccionar un fichero externo y delega la importación en GestionGastos,
+ * donde se aplica la factoría de importadores
+ */
 public class VistaImportadorController {
 
     @FXML

@@ -2,6 +2,12 @@ package umu.tds.proyecto.negocio.modelo;
 
 import java.time.LocalDateTime;
 
+/**
+ * Movimiento de gasto registrado en una cuenta
+ * 
+ * Contiene los datos comunes a cualquier gasto (concepto, cantidad, fecha
+ * y categoría)
+ */
 public class Movimiento {
 	
 	private String concepto;

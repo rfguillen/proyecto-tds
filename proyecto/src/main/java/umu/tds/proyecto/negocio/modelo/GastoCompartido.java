@@ -3,6 +3,11 @@ package umu.tds.proyecto.negocio.modelo;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * Movimiento de una cuenta compartida
+ * 
+ * Extiende Movimiento para añadir el participante que ha pagado el gasto
+ */
 public class GastoCompartido extends Movimiento {
 	
 	private Participante pagador;

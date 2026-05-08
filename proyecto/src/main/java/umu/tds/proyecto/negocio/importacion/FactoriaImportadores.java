@@ -5,8 +5,10 @@ import java.nio.file.Path;
 /**
  * Factoría encargada de crear el importador adecuado según el tipo de fichero.
  *
- * Aplica el patrón Método Factoría: GestionGastos pide un importador,
- * pero no necesita conocer qué clase concreta se instancia.
+ * Patrón Método Factoría:
+ * GestionGastos solicita un importador para un fichero, pero no se necesita
+ * conocer qué clase concreta de instancia. La decisión se centraliza aquí según
+ * la extensión del fichero
  */
 public class FactoriaImportadores {
 

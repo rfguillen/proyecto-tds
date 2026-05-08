@@ -1,6 +1,10 @@
 package umu.tds.proyecto.negocio.modelo;
 
-
+/**
+ * Cuenta individual del usuario
+ * 
+ * Registra movimientos personales
+ */
 public class CuentaPersonal extends Cuenta {
 	
 	/**

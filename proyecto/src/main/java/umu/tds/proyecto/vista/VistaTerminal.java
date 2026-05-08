@@ -14,6 +14,12 @@ import umu.tds.proyecto.negocio.modelo.CuentaCompartida;
 import umu.tds.proyecto.negocio.modelo.GastoCompartido;
 import umu.tds.proyecto.negocio.modelo.Movimiento;
 
+/**
+ * Interfaz de línea de comandos
+ * 
+ * Permite registrar, modificar y eliminar gastos desde la consola
+ * sobre la cuenta activa seleccionada en la interfaz gráfica
+ */
 public class VistaTerminal {
 
 	private static final DateTimeFormatter FECHA_CORRECTA = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");

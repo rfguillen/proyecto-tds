@@ -5,6 +5,9 @@ import java.util.Map;
 
 import umu.tds.proyecto.negocio.modelo.Usuario;
 
+/**
+ * Repositorio en memoria de usuarios
+ */
 public class RepositorioUsuarios implements IRepositorioUsuarios {
 
 	

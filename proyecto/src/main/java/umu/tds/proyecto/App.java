@@ -4,6 +4,12 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+/**
+ * Clase principal JavaFX
+ * 
+ * Inicializa la configuración global de la aplicación y abre la ventana
+ * principal mediante SceneManager
+ */
 public class App extends Application {
     
     @Override

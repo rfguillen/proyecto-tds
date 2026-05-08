@@ -5,6 +5,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Usuario principal de la aplicación
+ * 
+ * Agrupa la cuenta personal y las cuentas compartidas a las que pertenece
+ */
 public class Usuario {
 
 	private final String nombre;

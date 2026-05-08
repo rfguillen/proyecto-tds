@@ -8,6 +8,12 @@ import java.util.Objects;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Cuenta compartida entre varios participantes
+ * 
+ * Patrón Experto (GRASP): esta clase conoce sus participantes y movimientos
+ * por lo que es la responsable de calcular saldos pendientes
+ */
 public class CuentaCompartida extends Cuenta {
 	
 	private final List<Participante> participantes;

@@ -2,6 +2,11 @@ package umu.tds.proyecto.negocio.modelo;
 
 import java.util.Objects;
 
+/**
+ * Participante de una cuenta compartida
+ * 
+ * Su porcentaje de participación indica qué parte de cada gasto debe asumir
+ */
 public class Participante {
     
     private final String nombre;

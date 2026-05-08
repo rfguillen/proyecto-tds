@@ -15,6 +15,12 @@ import javafx.stage.Stage;
 import umu.tds.proyecto.Configuracion;
 import umu.tds.proyecto.negocio.modelo.Participante;
 
+/**
+ * Controlador de creación de cuentas compartidas
+ * 
+ * Recoge participantes y porcentajes antes de delegar la creación en el
+ * controlador principal
+ */
 public class VistaGrupoController {
 
     @FXML

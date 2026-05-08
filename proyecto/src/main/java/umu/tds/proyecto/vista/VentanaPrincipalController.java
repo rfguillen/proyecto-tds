@@ -14,6 +14,12 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Controlador de la ventana principal
+ * 
+ * Gestiona eventos de interfaz y delega las operaciones de negocio en 
+ * GestionGastos, manteniendo separada la vista del modelo
+ */
 public class VentanaPrincipalController {
 
     private static VentanaPrincipalController instance;

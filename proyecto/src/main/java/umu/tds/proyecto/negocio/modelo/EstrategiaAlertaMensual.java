@@ -3,6 +3,9 @@ package umu.tds.proyecto.negocio.modelo;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Estrategia concreta para alertas mensuales
+ */
 public class EstrategiaAlertaMensual implements EstrategiaAlerta {
     @Override
     public boolean superaUmbral(List<Movimiento> movimientos, double umbral, Categoria categoria) {

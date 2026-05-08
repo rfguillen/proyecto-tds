@@ -1,9 +1,10 @@
 package umu.tds.proyecto.negocio.modelo;
 
+/**
+ * Clase auxiliar para mensajes o tratamiento de excepciones
+ */
+
 public class ManejadorExcepciones {
-
-	//conforme sigamos avanzando lo ampliare
-
 	    public static void error(Exception e) {
 	      
 	        System.err.println("ERROR: " + e.getClass().getName() + " - " + e.getMessage());

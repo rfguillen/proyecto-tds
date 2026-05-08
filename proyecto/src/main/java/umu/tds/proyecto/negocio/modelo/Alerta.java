@@ -2,6 +2,12 @@ package umu.tds.proyecto.negocio.modelo;
 
 import java.util.Objects;
 
+/**
+ * Alerta configurable de gastos
+ * 
+ * Patrón Estrategia: delega el cálculo del umbral en una estrategia semanal
+ * o mensual según el periodo que se elija
+ */
 public class Alerta {
 
     public enum Periodo { SEMANAL, MENSUAL }

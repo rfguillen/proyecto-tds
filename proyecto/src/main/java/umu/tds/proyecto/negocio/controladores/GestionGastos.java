@@ -30,7 +30,13 @@ import umu.tds.proyecto.negocio.modelo.GastoCompartido;
 import umu.tds.proyecto.negocio.modelo.Participante;
 import umu.tds.proyecto.negocio.modelo.Usuario;
 
-
+/**
+ * Controlador principal de la aplicación
+ * 
+ * Patrón GRASP Controlador / Fachada de aplicación:
+ * recibe las peticiones de la vista y coordina el modelo, los repositorios,
+ * las alertas, la importación, los filtros y la persistencia
+ */
 public class GestionGastos {
 
     private IRepositorioCategorias repositorioCategorias;

@@ -11,6 +11,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Repositorio JSON de la aplicación
+ * 
+ * Patrón Repositorio + Jackson:
+ * encapsula la transformación entre el modelo de dominio y los DTOs usados
+ * para guardar/cargar el estado de la aplicación en formato JSON
+ */
 public class JsonRepositorioUsuarios {
 
     private static final String FICHERO = System.getProperty("user.home") + "/gastos_datos.json";

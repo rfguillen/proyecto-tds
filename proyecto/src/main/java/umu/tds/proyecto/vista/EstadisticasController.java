@@ -17,6 +17,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Controlador de las estadísticas
+ * 
+ * Agrupa movimientos por categoría y muestra la información gráficamente
+ */
 public class EstadisticasController {
 
     @FXML

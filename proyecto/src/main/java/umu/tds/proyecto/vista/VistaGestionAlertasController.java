@@ -16,6 +16,9 @@ import umu.tds.proyecto.negocio.modelo.Alerta;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Controlador para listar, modificar y eliminar alertas configuradas
+ */
 public class VistaGestionAlertasController {
 
     @FXML

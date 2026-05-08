@@ -2,6 +2,9 @@ package umu.tds.proyecto.negocio.modelo;
 
 import java.time.LocalDateTime;
 
+/**
+ * Notificación que se genera cuando una alerta de gasto se supera
+ */
 public class Notificacion {
     
     private final String mensaje;
