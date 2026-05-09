@@ -24,9 +24,17 @@ La clase **CuentaCompartida** calcula los saldos pendientes de cada participante
 
 ## 2. Diagrama de interacción para Registrar Gasto.
 ![Diagrama de interaccion](imagenes/DiagramaDeInteraccion.png)
-**CAMBIAR ESTA PARTE CUANDO TENGAMOS EL DIAGRAMA**
 
-Este diagrama de interacción representa el proceso de registro de un gasto. El usuario introduce los datos desde la vista de registro, que valida la información y delega la operación en **GestionGastos**. El sistema confirma la categoría del gasto, creándola si no existe, y registra el movimiento en la cuenta correspondiente. En el caso de una cuenta compartida, se recalculan los saldos de los participantes. Finalmente, se guarda el estado actualizado del usuario y, si se supera algún límite configurado, se muestra una notificación al usuario antes de confirmar el registro del gasto.
+El diagrama de interacción representa el proceso de registro de un gasto:
+1. El usuario introduce los datos desde la vista de registro
+2. La vista recoge y valida los datos básicos del formulario
+3. La operación se delega en el controlador principal **GestionGastos**
+4. El controlador confirma la categoría, si no existe la crea
+5. El gasto se registra en la cuenta correspondiente
+6. Si la cuenta es compartida se recalculan los saldos de los participantes
+7. Se comprueban las alertas configuradas
+8. Si se supera algún umbral se genera una notificación
+9. El estado actual se guarda mediante la capa de persistencia JSON
 
 ## 3. Arquitectura y decisiones de diseño
 
